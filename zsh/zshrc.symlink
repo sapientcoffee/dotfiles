@@ -117,6 +117,7 @@ if [[ -x `which grc` ]]; then
   alias colourify='grc -es --colour=auto'
   alias configure='colourify ./configure'
   alias diff='colourify diff'
+  alias wdiff='colourify wdiff'
   alias make='colourify make'
   alias gcc='colourify gcc'
   alias g++='colourify g++'
@@ -128,6 +129,9 @@ if [[ -x `which grc` ]]; then
   alias traceroute='colourify /usr/sbin/traceroute'
   alias curl='colourify curl'
   alias last='grc last'
+  alias dig='colourify dig'
+  alias mount='colourify mount'
+  alias ifconfig='colourify ifconfig'
 fi
 
 

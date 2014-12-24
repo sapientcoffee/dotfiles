@@ -137,7 +137,13 @@ fi
 #alias colourify="grc -es --colour=auto"
 #alias configure='colourify ./configure'
 
+# Python virtualenv setup and pip
 # pip should only run if there is a virtualenv currently activated
 export PIP_REQUIRE_VIRTUALENV=true
 # cache pip-installed packages to avoid re-downloading
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+# To allow the installation of pip packages globally
+# an exmaple is gpip install --upgrade --no-use-wheel pip setuptools virtualenv
+gpip(){
+	   PIP_REQUIRE_VIRTUALENV="" pip "$@"
+}

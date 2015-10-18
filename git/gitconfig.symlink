@@ -5,3 +5,5 @@
 [user]
 	name = Rob Edwards
 	email = rob.j.edwards@gmail.com
+[core]
+	excludesfile = /Users/robedwa/.gitignore_global

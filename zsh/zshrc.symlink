@@ -14,7 +14,7 @@ ZSH_THEME="robbyrussell"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+export UPDATE_ZSH_DAYS=7
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -23,10 +23,10 @@ ZSH_THEME="robbyrussell"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
- ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
- COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -45,7 +45,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(cake git sublime osx git-flow git-extras npm node theme web-search battery sublime)
+plugins=(aws brew colorize docker docker-compose cake git github gitignore go iwhois sublime osx git-flow git-extras git-prompt npm osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search battery sublime)
 
 # User configuration
 
@@ -99,6 +99,40 @@ alias 'cd..=cd ..'
 # Common shortcuts
 alias ll='ls -lrta'
 alias l='ls -CF'
+
+# For Git
+alias 'gk=z gitk --all'
+alias 'gs=git status' # (NB overriding GhostScript)
+alias 'gd=git diff'
+alias 'gg=z git gui'
+alias 'git-stashpullpop=git stash && git pull --rebase && git stash pop'
+alias 'gl=git log --graph --abbrev-commit --pretty=oneline --decorate'
+
+# For convenience
+alias 'mkdir=mkdir -p'
+alias 'dmesg=dmesg --ctime'
+alias 'df=df --exclude-type=tmpfs'
+alias 'dus=du -msc * .*(N) | sort -n'
+alias 'dus.=du -msc .* | sort -n'
+alias 'fcs=(for i in * .*(N); do echo $(find $i -type f | wc -l) "\t$i"; done) | sort -n'
+alias 'fcs.=(for i in .*; do echo $(find $i -type f | wc -l) "\t$i"; done) | sort -n'
+alias 'last=last -a'
+alias 'zap=clear; echo -en "\e[3J"'
+alias 'rmedir=rmdir -v **/*(/^F)'
+alias 'xmlindent=xmlindent -t -f -nbe'
+
+# Log file viewing
+lastlogdir=logs
+alias taillast='tail -f $lastlogdir/*(om[1])'
+alias catlast='< $lastlogdir/*(om[1])'
+alias lesslast='less $lastlogdir/*(om[1])'
+
+# SSH aliases
+alias 'ssh-dev=ssh sheladmin@infrastructure-dev.ukidcv.cisco.com'
+alias 'ssh-demo=ssh sheladmin@infrastructure.ukidcv.cisco.com'
+
+# Rhino JS alias
+alias rhino='java org.mozilla.javascript.tools.shell.Main'
 
 # A few nice settings
 for option (

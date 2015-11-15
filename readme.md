@@ -62,6 +62,7 @@ There's a few special files in the hierarchy.
   symlinked in when you run `script/bootstrap`.
 
 The current file structure is as follows;
+```
 .
 ├── LICENSE.md
 ├── bash
@@ -92,7 +93,7 @@ The current file structure is as follows;
     ├── completion.zsh
     ├── window.zsh
     └── zshrc.symlink
-
+```
 
 # Uninstall
 

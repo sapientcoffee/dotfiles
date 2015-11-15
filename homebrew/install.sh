@@ -12,6 +12,5 @@ if test ! $(which brew)
 	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 	fi
 # Install homebrew packages
-	#brew install grc coreutils spark
-	brew install grc coreutils spark z ack git
+	brew install grc coreutils spark z ack git autoconf git-extras htop-osx python python3 openconnect openssl wget tree tmux
 	exit 0

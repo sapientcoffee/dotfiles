@@ -1,6 +1,4 @@
-" Matt Day's .vimrc - http://matt.fragilegeek.com/vimrc
-" Use at your own risk - these settings work for me...
-
+" Inspired by Matt Day's .vimrc - http://matt.fragilegeek.com/vimrc
 "================
 "  256 Colours!
 "================
@@ -76,5 +74,3 @@ set ignorecase
 
 " Finally map the 'enter' key
 :imap <Esc>OM <CR>
-
-

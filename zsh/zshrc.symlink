@@ -5,7 +5,16 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
+#ZSH_THEME="seeker"
+
+#Testing for new ones
+ZSH_THEME="seeker"
+#ZSH_THEME="Honukai"
+
+
+
+#ZSH_THEME="nanotech" # most recent
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -49,7 +58,7 @@ plugins=(aws brew colorize docker docker-compose cake git github gitignore go iw
 
 # User configuration
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:$PATH:/sbin:/opt/X11/bin:~/bin"
+export PATH="/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:$PATH:/sbin:/opt/X11/bin:~/bin:/Users/robedwa/bin"
 export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -144,7 +153,7 @@ for option (
 	) setopt $option
 
 # Date on right-side including return code [0][09:30:00]
-RPROMPT=[%?]%{$fg_bold[grey]%}[%D{%H:%M:%S}]%{$reset_color%}
+#RPROMPT=[%?]%{$fg_bold[grey]%}[%D{%H:%M:%S}]%{$reset_color%}
 
 # frontend for generic colouriser grcat(1)
 if [[ -x `which grc` ]]; then
@@ -170,6 +179,8 @@ fi
 
 #alias colourify="grc -es --colour=auto"
 #alias configure='colourify ./configure'
+alias cecs=/Users/robedwa/Documents/Development/Projects/UCSD/Python/cecs/examples/cecs-cli.py
+alias projects="cd /Users/robedwa/Documents/Development/Projects/"
 
 # Python virtualenv setup and pip
 # pip should only run if there is a virtualenv currently activated

@@ -56,7 +56,8 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # plugins=(aws brew colorize docker docker-compose cake git github gitignore go iwhois sublime osx git-flow git-extras git-prompt npm osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search battery sublime)
-plugins=(aws brew colorize docker docker-compose cake git go iwhois osx osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages theme web-search battery)
+#iplugins=(aws brew colorize docker docker-compose cake git go iwhois osx osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages theme web-search battery)
+plugins=(colorize docker docker-compose cake git github gitignore go iwhois osx git-flow git-extras git-prompt npm osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search battery)
 # User configuration
 
 export PATH="/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:$PATH:/sbin:/opt/X11/bin:~/bin:/Users/robedwa/bin:/Users/robedwa/bin/terraform"

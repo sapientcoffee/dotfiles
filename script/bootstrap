@@ -128,9 +128,19 @@ finish_off () {
     if [[ ${UNAMER} =~ .*\.amzn1.* ]]
     then
         echo "This is an EC2 instance"
-        sudo chsh ec2-user -s /bin/zsh
         success 'Tidied up and Complete'
+        #sudo chsh ec2-user -s /bin/zsh
+    else
+        echo "something else"
     fi
+    git clone https://github.com/altercation/vim-colors-solarized.git
+    mkdir -p ~/.vim/colors/; mv vim-colors-solarized/colors/solarized.vim $_
+    #mkdir ~/.vim/colors/
+    #mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
+    git clone https://github.com/garabik/grc.git ./grc
+    cd ./grc
+    ./install.#!/bin/sh
+    cd ..
 
 }
 

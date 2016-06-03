@@ -114,7 +114,7 @@ install_dotfiles () {
 
 install_zsh () {
     info 'installing ZSH '
-    sudo -y yum install zsh >/dev/null
+    sudo yum -y install zsh >/dev/null
     info 'installing Oh-my-ZSH'
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }

@@ -25,10 +25,12 @@ fail () {
 }
 
 setup_gitconfig () {
-    if ! [ -f git/gitconfig.symlink ] then
+    if ! [ -f git/gitconfig.symlink ]
+    then
         info 'setup gitconfig'
         git_credential='cache'
-    if [ "$(uname -s)" == "Darwin" ] then
+    if [ "$(uname -s)" == "Darwin" ]
+    then
         git_credential='osxkeychain'
     fi
 

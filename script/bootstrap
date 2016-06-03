@@ -116,7 +116,7 @@ install_zsh () {
     info 'installing ZSH '
     sudo yum -y install zsh >/dev/null
     info 'installing Oh-my-ZSH'
-    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
 }
 
 setup_gitconfig

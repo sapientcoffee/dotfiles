@@ -137,9 +137,9 @@ finish_off () {
     mkdir -p ~/.vim/colors/; mv vim-colors-solarized/colors/solarized.vim $_
     #mkdir ~/.vim/colors/
     #mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
-    git clone https://github.com/garabik/grc.git ./grc
+    git clone https://github.com/garabik/grc.git
     cd ./grc
-    ./install.#!/bin/sh
+    sudo ./install.#!/bin/sh
     cd ..
 
 }

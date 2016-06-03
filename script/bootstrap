@@ -123,8 +123,8 @@ install_zsh () {
 }
 
 finish_off () {
-    info 'Running tidy up and final'
     sudo chsh -s /bin/zsh
+    success 'Tidied up and Complete'
 }
 
 setup_gitconfig

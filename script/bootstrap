@@ -129,8 +129,9 @@ finish_off () {
     then
         echo "This is an EC2 instance"
         sudo chsh ec2-user -s /bin/zsh
+        success 'Tidied up and Complete'
+    fi
 
-    success 'Tidied up and Complete'
 }
 
 setup_gitconfig

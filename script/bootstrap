@@ -117,7 +117,7 @@ install_zsh () {
     sudo yum -y install zsh >/dev/null
     success 'zsh install'
     #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    sudo git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+    sudo git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
     success 'Oh-My-ZSH GitHub repo Cloned'
     #done
 }

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+UNAMER=$(uname -r)
 #
 # bootstrap installs things.
 cd "$(dirname "$0")/.."
@@ -113,9 +115,9 @@ install_dotfiles () {
 }
 
 install_zsh () {
-    info 'installing ZSH '
+    #info 'installing ZSH '
     sudo yum -y install zsh >/dev/null
-    success 'zsh install'
+    success 'zsh installed'
     #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     sudo git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
     success 'Oh-My-ZSH GitHub repo Cloned'
@@ -123,7 +125,11 @@ install_zsh () {
 }
 
 finish_off () {
-    sudo chsh -s /bin/zsh
+    if [[ ${UNAMER} =~ .*\.amzn1.* ]]
+    then
+        echo "This is an EC2 instance"
+        sudo chsh ec2-user -s /bin/zsh
+
     success 'Tidied up and Complete'
 }
 

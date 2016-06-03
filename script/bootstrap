@@ -115,9 +115,10 @@ install_dotfiles () {
 install_zsh () {
     info 'installing ZSH '
     sudo yum -y install zsh >/dev/null
-    info 'installing Oh-my-ZSH'
+    success 'zsh install'
     #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     sudo git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+    success 'Oh-My-ZSH GitHub repo Cloned'
     #done
 }
 

@@ -118,7 +118,7 @@ install_zsh () {
     info 'installing Oh-my-ZSH'
     #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     sudo git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-    done
+    #done
 }
 
 finish_off () {

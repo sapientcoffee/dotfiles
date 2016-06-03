@@ -116,13 +116,16 @@ install_zsh () {
     info 'installing ZSH '
     sudo yum -y install zsh >/dev/null
     info 'installing Oh-my-ZSH'
-    sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
+    #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
     done
 }
 
 setup_gitconfig
 install_zsh
 install_dotfiles
+
+sudo chsh -s /bin/zsh
 
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" == "Darwin" ]

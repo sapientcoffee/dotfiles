@@ -1,4 +1,6 @@
-# Path to your oh-my-zsh installation.
+# Rob Edwards @clijockey .zshrc file - https://github.com/clijockey/dotfiles
+
+# I use oh-my-zsh - Path to installation.
 export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
@@ -9,11 +11,10 @@ export ZSH=$HOME/.oh-my-zsh
 #ZSH_THEME="seeker"
 
 #Testing for new ones
-ZSH_THEME="seeker"
-#ZSH_THEME="Honukai"
 
-
-
+ZSH_THEME="spaceship"
+#ZSH_THEME="seeker"
+##ZSH_THEME="Honukai"
 #ZSH_THEME="nanotech" # most recent
 
 # Uncomment the following line to use case-sensitive completion.
@@ -54,11 +55,11 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aws brew colorize docker docker-compose cake git github gitignore go iwhois sublime osx git-flow git-extras git-prompt npm osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search battery sublime)
-
+# plugins=(aws brew colorize docker docker-compose cake git github gitignore go iwhois sublime osx git-flow git-extras git-prompt npm osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search battery sublime)
+plugins=(aws brew colorize docker docker-compose cake git go iwhois osx osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages theme web-search battery)
 # User configuration
 
-export PATH="/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:$PATH:/sbin:/opt/X11/bin:~/bin:/Users/robedwa/bin"
+export PATH="/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:$PATH:/sbin:/opt/X11/bin:~/bin:/Users/robedwa/bin:/Users/robedwa/bin/terraform"
 export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -100,6 +101,10 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt HIST_VERIFY
+
+# =======================
+# Environment and Aliases
+# =======================
 
 # If a command takes longer than 15 seconds, print its duration
 export REPORTTIME=15
@@ -177,6 +182,19 @@ if [[ -x `which grc` ]]; then
   alias ifconfig='colourify ifconfig'
 fi
 
+#dcloud alias
+alias icf='dcloud-connect v12user1 979240'
+alias cliqr='dcloud-connect v620user1 41ee9e'
+alias ucsd='dcloud-connect v876user1 3e8cec'
+alias ecs='dcloud-connect v343user1 84fd83'
+
+#Cisco Cloud Center  alias for quick ssh
+alias ccm='ssh root@cloud-center-ccm.ukidcv.cisco.com'
+alias cco='ssh root@cloud-center-cco.ukidcv.cisco.com'
+alias rabbit='ssh root@cloud-center-rabbit.ukidcv.cisco.com'
+alias monitor='ssh root@cloud-center-monitor.ukidcv.cisco.com'
+alias repo='ssh root@cloud-center-repo.ukidcv.cisco.com'
+
 #alias colourify="grc -es --colour=auto"
 #alias configure='colourify ./configure'
 alias cecs=/Users/robedwa/Documents/Development/Projects/UCSD/Python/cecs/examples/cecs-cli.py
@@ -192,3 +210,15 @@ export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 #gpip(){
 #	   PIP_REQUIRE_VIRTUALENV="" pip "$@"
 #}
+
+# ==========================
+# Cloud Access Env Variables
+# ==========================
+# Check if OpenStack RC file exists:
+if [[ -f $HOME/.openstack_credentials ]]; then
+	source $HOME/.openstack_credentials
+fi
+# Load local system stuff (local PATH, aliases etc)
+if [[ -f $HOME/.zsh_local ]]; then
+	source $HOME/.zsh_local
+fi

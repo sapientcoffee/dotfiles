@@ -1,0 +1,6 @@
+# Do nothing other than launch bashrc (which checks if we're running interactively)
+# ...for some reason ootb OS X doesn't do this!
+
+if [[ -e $HOME/.bashrc ]]; then
+	. $HOME/.bashrc
+fi

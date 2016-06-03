@@ -1,4 +1,7 @@
 " Inspired by Matt Day's .vimrc - http://matt.fragilegeek.com/vimrc
+syntax enable
+set background=dark
+colorscheme solarized
 "================
 "  256 Colours!
 "================

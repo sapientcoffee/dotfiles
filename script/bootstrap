@@ -35,7 +35,8 @@ setup_gitconfig () {
     then
         git_credential='osxkeychain'
     fi
-
+    info "Configuring up Github settings ..... "
+    #git config --global http.proxy http://proxy.esl.cisco.com:80
     user ' - What is your github author name?'
     read -e git_authorname
     user ' - What is your github author email?'
@@ -85,42 +86,43 @@ link_file () {
         if [ "$overwrite" == "true" ]
         then
             rm -rf "$dst"
-            success "removed $dst"
+            success "..removed $dst"
         fi
         if [ "$backup" == "true" ]
         then
             mv "$dst" "${dst}.backup"
-            success "moved $dst to ${dst}.backup"
+            success "..moved $dst to ${dst}.backup"
         fi
         if [ "$skip" == "true" ]
         then
-            success "skipped $src"
+            success "..skipped $src"
         fi
     fi
     if [ "$skip" != "true" ] # "false" or empty
     then
         ln -s "$1" "$2"
-        success "linked $1 to $2"
+        success "..linked $1 to $2"
     fi
 }
 
 install_dotfiles () {
-    info 'installing dotfiles'
+    info 'Installing dotfiles'
     local overwrite_all=false backup_all=false skip_all=false
     for src in $(find "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink')
     do
         dst="$HOME/.$(basename "${src%.*}")"
         link_file "$src" "$dst"
     done
+    success '..dotfiles configured!'
 }
 
-install_zsh () {
-    #info 'installing ZSH '
+install_zsh_yum () {
+    info 'Installing ZSH '
     sudo yum -y install zsh >/dev/null
-    success 'zsh installed'
+    success '..zsh installed'
     #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    sudo git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
-    success 'Oh-My-ZSH GitHub repo Cloned'
+    git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
+    success '..Oh-My-ZSH GitHub repo Cloned'
     #done
 }
 
@@ -135,8 +137,8 @@ finish_off () {
     fi
     git clone https://github.com/altercation/vim-colors-solarized.git
     mkdir -p ~/.vim/colors/; mv vim-colors-solarized/colors/solarized.vim $_
-    #mkdir ~/.vim/colors/
-    #mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
+    mkdir ~/.vim/colors/
+    mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
     git clone https://github.com/garabik/grc.git
     cd ./grc
     sudo ./install.#!/bin/sh
@@ -144,23 +146,32 @@ finish_off () {
 
 }
 
-setup_gitconfig
-install_zsh
-install_dotfiles
-
-
-
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" == "Darwin" ]
 then
-    info "installing dependencies"
+    info "Detected macOS"
+    info "Installing dependencies"
     if source bin/dot > /tmp/dotfiles-dot 2>&1
     then
-        success "dependencies installed"
+        success "Dependencies installed"
     else
-        fail "error installing dependencies"
+        fail "Error installing dependencies"
     fi
+elif [ -f /etc/debian_version ]; then
+    info "Detected Debian based operating system"
+    info "Installing dependencies"
+    #OS=Debian  # XXX or Ubuntu??
+    #VER=$(cat /etc/debian_version)
+elif [ -f /etc/redhat-release ]; then
+    info "Detected RetHat variant (RHEL/Centos) operating system"
+    info "Installing dependencies"
+    install_zsh_yum
 fi
 echo ''
-echo ' All installed!'
+echo ' Complete!'
+
+
+setup_gitconfig
+#install_zsh
+install_dotfiles
 finish_off

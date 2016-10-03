@@ -113,14 +113,17 @@ install_dotfiles () {
         dst="$HOME/.$(basename "${src%.*}")"
         link_file "$src" "$dst"
     done
-    success '..dotfiles configured!'
+    success 'dotfiles configured!'
 }
 
-install_zsh_yum () {
+install_zsh () {
     info 'Installing ZSH '
-    sudo yum -y install zsh >/dev/null
-    success '..zsh installed'
-    #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    if [$OS == 'Redhat']; then
+        sudo yum -y install zsh >/dev/null
+        success '..zsh installed'
+        #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    if
+
     git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
     success '..Oh-My-ZSH GitHub repo Cloned'
     #done
@@ -132,15 +135,23 @@ finish_off () {
         echo "This is an EC2 instance"
         success 'Tidied up and Complete'
         #sudo chsh ec2-user -s /bin/zsh
-    else
-        echo "something else"
+    #else
+    #    echo "something else"
     fi
+
+    info "Solarized Colors Setup"
     git clone https://github.com/altercation/vim-colors-solarized.git
     mkdir -p ~/.vim/colors/; mv vim-colors-solarized/colors/solarized.vim $_
     mkdir ~/.vim/colors/
+    success "Solarized Installed"
+    info "Configure vim"
     mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
+    success "vim colors setup"
+    info "Configure GRC"
     git clone https://github.com/garabik/grc.git
     cd ./grc
+    success "GRC setup"
+
     sudo ./install.#!/bin/sh
     cd ..
 
@@ -160,18 +171,21 @@ then
 elif [ -f /etc/debian_version ]; then
     info "Detected Debian based operating system"
     info "Installing dependencies"
-    #OS=Debian  # XXX or Ubuntu??
+    OS=Debian
     #VER=$(cat /etc/debian_version)
 elif [ -f /etc/redhat-release ]; then
     info "Detected RetHat variant (RHEL/Centos) operating system"
     info "Installing dependencies"
-    install_zsh_yum
+    OS=Redhat
+    #install_zsh_yum
 fi
-echo ''
-echo ' Complete!'
+
 
 
 setup_gitconfig
 #install_zsh
 install_dotfiles
 finish_off
+
+echo ''
+echo ' Complete!'

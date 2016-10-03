@@ -31,7 +31,7 @@ bin/
 ######################
 .DS_Store
 .DS_Store?
-._*
+
 *~
 *.swp
 .Spotlight-V100

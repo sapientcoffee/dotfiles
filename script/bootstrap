@@ -71,7 +71,7 @@ setup_gitconfig () {
 }
 
 install_zsh () {
-  info "Checking ZSH"
+  success "..Checking ZSH"
   if [ -d ~/.oh-my-zsh ]; then
     info "..oh-my-zsh already exists, removing so can be replaced with latest!"
     rm -rf ~/.oh-my-zsh
@@ -175,18 +175,22 @@ install_colours () {
   #
   info "..Solarized Colors Setup"
   git clone --quiet https://github.com/altercation/vim-colors-solarized.git >/dev/null
-  mkdir -p ~/.vim/colors/; mv vim-colors-solarized/colors/solarized.vim $_
-  mkdir ~/.vim/colors/
+  if [ ! -d ~/.vim/colors ]; then
+    mkdir -p ~/.vim/colors
+  fi
+  mkdir -p ~/.vim/colors/;
+  mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
+  #mkdir ~/.vim/colors/
   success "..Solarized Installed"
   info "..Configure vim"
-  if ! [ -d ~/.vim/colors ]; then
-    mkdir -p ~/.vim/colors/
-  fi
-  mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
+  # if [ ! -d ~/.vim/colors ]; then
+  #   mkdir -p ~/.vim/colors
+  # fi
   success "..vim colors setup"
+
   info "..Configure GRC"
-  git clone --quiet https://github.com/garabik/grc.git >/dev/null
-  cd ./grc
+  git clone --quiet https://github.com/garabik/grc.git ~/.grc >/dev/null
+  #cd ./grc
   success "..GRC setup"
 
 }
@@ -245,17 +249,17 @@ fi
 
 info "Setup GitHub"
 setup_gitconfig
-success "GitHub Setup"
+success "..GitHub Setup"
 info "Setup zsh"
 install_zsh
-success "ZSH Setup"
+success "..ZSH Setup"
 info "Setup dotfiles"
 install_dotfiles
-success "dotfiles Setup"
+success "..dotfiles Setup"
 #Colours and theme
 info "Setup Colourings"
 install_colours
-success "Colours Setup"
+success "..Colours Setup"
 info "Tidy up and complete"
 finish_off
 success "Complete"

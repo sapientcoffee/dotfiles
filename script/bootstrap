@@ -179,7 +179,7 @@ install_colours () {
   mkdir ~/.vim/colors/
   success "..Solarized Installed"
   info "..Configure vim"
-  if [ -d ~/.vim/colors ]; then
+  if ! [ -d ~/.vim/colors ]; then
     mkdir -p ~/.vim/colors/
   fi
   mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/

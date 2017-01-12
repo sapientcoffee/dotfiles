@@ -66,6 +66,7 @@ setup_gitconfig () {
     sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.symlink.example > git/gitconfig.symlink
     success 'gitconfig'
     fi
+    git config --global push.default matching
     success "..Configured!"
 }
 
@@ -89,7 +90,7 @@ install_zsh () {
   success '..zsh installed'
 
     #if [$FLAVOUR = "osx"]; then
-      git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh >/dev/null
+      git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
       # Copy each extension to custom dir
       success '..Oh-My-ZSH GitHub repo Cloned'
       mkdir -p ~/.oh-my-zsh/custom/themes
@@ -259,6 +260,7 @@ install_colours
 success "..Colours Setup"
 info "Tidy up and complete"
 finish_off
+sudo chsh -s $(which zsh)
 success "Complete"
 
 #hidden files and dir on Linux

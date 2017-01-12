@@ -44,7 +44,6 @@ fail () {
     exit
 }
 
-
 setup_gitconfig () {
     # blah blah blah
     success "..Setting up!"
@@ -79,11 +78,11 @@ install_zsh () {
   fi
 
   success "..Installing oh-my-zsh"
-  if [ "$OS" == 'Redhat' ]; then
-    sudo yum install -y -q zsh
+  if [ "$FLAVOUR" == Redhat ]; then
+    sudo yum install -y zsh > /dev/null
     success "..zsh installed via yum."
     #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  elif [ "$OS" == "Debian" ]; then
+  elif [ "$FLAVOUR" == Debian ]; then
     sudo apt-get -y install zsh > /dev/null
     success "..zsh installed via apt-get."
   fi
@@ -110,7 +109,6 @@ install_zsh () {
 
     #done
 }
-
 
 link_file () {
     local src=$1 dst=$2
@@ -185,10 +183,10 @@ install_dotfiles () {
 install_colours () {
   #
   #info "..Solarized Colors Setup"
-  if [ -d ~/.vim/colors ]; then
+  if [ -d ~/.vim/colors-solarized ]; then
     info "..Removing ~/.vim/colors directory!"
-    rm -rf ~/.vim/colors
-  else
+    rm -rf ~/.vim/colors-solarized
+  if [ ! -d ~/.vim/colors/ ]; then
     mkdir -p ~/.vim/colors;
   fi
   git clone --quiet https://github.com/altercation/vim-colors-solarized.git ~/.vim/colors-solarized >/dev/null
@@ -226,22 +224,6 @@ finish_off () {
 if [ "$(uname -s)" == "Darwin" ]; then
     success "Detected Darwin (OSX) based operating system"
     FLAVOUR="osx"
-    # info "Detected macOS"
-    # info "Installing dependencies"
-    # info "setup GitHub"
-    # setup_gitconfig
-    # info "setup zsh"
-    # install_zsh
-    # info "setup dotfiles"
-    # install_dotfiles
-    # info "finish off"
-    # finish_off
-    # if source bin/dot > /tmp/dotfiles-dot 2>&1
-    # then
-    #     success "Dependencies installed"
-    # else
-    #     fail "Error installing dependencies"
-    # fi
 elif [ -f /etc/debian_version ]; then
 # Might look at using if [[ -x /usr/bin/apt-get ]]; then
     success "Detected Debian based operating system"
@@ -253,7 +235,6 @@ elif [ -f /etc/redhat-release ]; then
     success "Detected RetHat variant (RHEL/Centos) operating system"
     #info "Installing dependencies"
     FLAVOUR="Redhat"
-    #install_zsh_yum
 else
   fail "[ERROR] Cannot detect operating system"
 

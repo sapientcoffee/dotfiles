@@ -10,12 +10,12 @@ I wrote a [blog post](https://clijockey.com/dotfiles/) about this as well.
 
 ## install
 
+You will need to have git installed on the host to setup your enfironment ```apt-get install git``` or ```yum install git``` or ```brew install git```.
 Run this;
 
 ```sh
 git clone https://github.com/clijockey/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles
-script/bootstrap
+~/.dotfiles/script/bootstrap
 ```
 
 This will symlink the appropriate files in `.dotfiles` to your home directory.

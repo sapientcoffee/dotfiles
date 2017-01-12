@@ -72,35 +72,36 @@ setup_gitconfig () {
 
 install_zsh () {
   success "..Checking ZSH config"
-
-  #apt-get install git-core
   if [ -d ~/.oh-my-zsh ]; then
     info "..oh-my-zsh already exists, removing so can be replaced with latest!"
     rm -rf ~/.oh-my-zsh
     success ".. Removed!"
   fi
-    success "..Installing oh-my-zsh"
-    if [$OS == 'Redhat']; then
-        sudo yum -y install zsh >/dev/null
-        #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-      elif [$OS == "Debian"]; then
-        sudo apt-get -y install zsh >/dev/null
-    fi
-    success '..zsh installed'
+
+  success "..Installing oh-my-zsh"
+  if [$OS == 'Redhat']; then
+    sudo yum -y install zsh >/dev/null;
+    success "..zsh installed via yum."
+    #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  elif [$OS == "Debian"]; then
+    sudo apt-get -y install zsh >/dev/null;
+    success "..zsh installed via apt-get."
+  fi
+  success '..zsh installed'
 
     #if [$FLAVOUR = "osx"]; then
       #git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh >/dev/null
       # Copy each extension to custom dir
       #success '..Oh-My-ZSH GitHub repo Cloned'
     if [[ -x /usr/bin/curl ]]; then
-     #sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-     curl -OL https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh
-     bash install.sh
+     sudo sh -c "$(curl -fsSL -silent https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
+     #curl -OL https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh
+     #sudo bash install.sh
      success '..Oh-My-ZSH installed via curl'
     elif [[ -x /usr/bin/wget ]]; then
-      wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -
-      bash install.sh
-      #sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+      #wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -
+      #sudo bash install.sh
+      sudo sh -c "$(wget -quiet https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" > /dev/null
       success '..Oh-My-ZSH installed via wget'
     else
      fail "[ERROR] Curl or wget not installed"
@@ -187,17 +188,13 @@ install_colours () {
   if [ -d ~/.vim/colors ]; then
     info "..Removing ~/.vim/colors directory!"
     rm -rf ~/.vim/colors
+  else;
+    mkdir -p ~/.vim/colors;
   fi
-  git clone --quiet https://github.com/altercation/vim-colors-solarized.git ~/.vim/colors >/dev/null
+  git clone --quiet https://github.com/altercation/vim-colors-solarized.git ~/.vim/colors-solarized >/dev/null
+  mv ~/.vim/colors-solarized/colors/solarized.vim ~/.vim/colors/
 
-  #mkdir -p ~/.vim/colors/;
-  #mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
-  #mkdir ~/.vim/colors/
   success "..Solarized Installed"
-  #info "..Configure vim"
-  # if [ ! -d ~/.vim/colors ]; then
-  #   mkdir -p ~/.vim/colors
-  # fi
   success "..vim colors setup"
 
   #info "..Configure GRC"

@@ -67,30 +67,31 @@ setup_gitconfig () {
     sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.symlink.example > git/gitconfig.symlink
     success 'gitconfig'
     fi
+    sucess "..Configured!"
 }
 
 install_zsh () {
-  info 'Checking ZSH '
+  info "Checking ZSH"
   if [ -d ~/.oh-my-zsh ]; then
-    info '..oh-my-zsh already exists, removing so can be replaced with latest!'
+    info "..oh-my-zsh already exists, removing so can be replaced with latest!"
     rm -rf ~/.oh-my-zsh
-  #fi
-
-    info 'Installing ZSH '
-    if [$FLAVOUR = "mac"]; then
+    success ".. Removed!"
+  fi
+    success "Installing ZSH"
+    #if [$FLAVOUR = "osx"]; then
       git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
       # Copy each extension to custom dir
       success '..Oh-My-ZSH GitHub repo Cloned'
-    elif [[ -x /usr/bin/curl ]]; then
-      sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-      success '..Oh-My-ZSH installed via curl'
-    elif [[ -x /usr/bin/wget ]]; then
-      sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-      success '..Oh-My-ZSH installed via wget'
-    else
-      fail "[ERROR] Curl or wget not installed"
+    #elif [[ -x /usr/bin/curl ]]; then
+    #  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    #  success '..Oh-My-ZSH installed via curl'
+    #elif [[ -x /usr/bin/wget ]]; then
+    #  sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+    #  success '..Oh-My-ZSH installed via wget'
+    #else
+    #  fail "[ERROR] Curl or wget not installed"
       # write code to install it.
-    fi
+    #fi
     #if [$OS == 'Redhat']; then
     #    sudo yum -y install zsh >/dev/null
     #    success '..zsh installed'
@@ -160,16 +161,32 @@ link_file () {
 }
 
 install_dotfiles () {
-    info 'Installing dotfiles'
+    info '..Installing dotfiles'
     local overwrite_all=false backup_all=false skip_all=false
     for src in $(find "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink')
     do
         dst="$HOME/.$(basename "${src%.*}")"
         link_file "$src" "$dst"
     done
-    success 'dotfiles configured!'
+    success '..dotfiles configured!'
 }
 
+install_colours () {
+  #
+  info "..Solarized Colors Setup"
+  git clone https://github.com/altercation/vim-colors-solarized.git
+  mkdir -p ~/.vim/colors/; mv vim-colors-solarized/colors/solarized.vim $_
+  mkdir ~/.vim/colors/
+  success "..Solarized Installed"
+  info "..Configure vim"
+  mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
+  success "..vim colors setup"
+  info "..Configure GRC"
+  git clone https://github.com/garabik/grc.git
+  cd ./grc
+  success "..GRC setup"
+
+}
 
 finish_off () {
     if [[ ${UNAMER} =~ .*\.amzn1.* ]]
@@ -180,29 +197,15 @@ finish_off () {
     #else
     #    echo "something else"
     fi
-
-    info "Solarized Colors Setup"
-    git clone https://github.com/altercation/vim-colors-solarized.git
-    mkdir -p ~/.vim/colors/; mv vim-colors-solarized/colors/solarized.vim $_
-    mkdir ~/.vim/colors/
-    success "Solarized Installed"
-    info "Configure vim"
-    mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
-    success "vim colors setup"
-    info "Configure GRC"
-    git clone https://github.com/garabik/grc.git
-    cd ./grc
-    success "GRC setup"
-
-    sudo ./install.#!/bin/sh
-    cd ..
+    sudo ../install.#!/bin/sh
+    #cd ..
 
 }
 
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" == "Darwin" ]; then
-    info "Detected Darwin (Mac) based operating system"
-    FLAVOUR="mac"
+    success "Detected Darwin (OSX) based operating system"
+    FLAVOUR="osx"
     # info "Detected macOS"
     # info "Installing dependencies"
     # info "setup GitHub"
@@ -221,13 +224,13 @@ if [ "$(uname -s)" == "Darwin" ]; then
     # fi
 elif [ -f /etc/debian_version ]; then
 # Might look at using if [[ -x /usr/bin/apt-get ]]; then
-    info "Detected Debian based operating system"
+    success "Detected Debian based operating system"
     #info "Installing dependencies"
     FLAVOUR="Debian"
     #VER=$(cat /etc/debian_version)
 elif [ -f /etc/redhat-release ]; then
 # Might look to change to use elif [[ -x /usr/bin/yum ]]; then
-    info "Detected RetHat variant (RHEL/Centos) operating system"
+    success "Detected RetHat variant (RHEL/Centos) operating system"
     #info "Installing dependencies"
     FLAVOUR="Redhat"
     #install_zsh_yum
@@ -239,11 +242,22 @@ fi
 
 info "Setup GitHub"
 setup_gitconfig
+success "GitHub Setup"
 info "Setup zsh"
 install_zsh
-#info "Setup dotfiles"
-#install_dotfiles
-#finish_off
+success "ZSH Setup"
+info "Setup dotfiles"
+install_dotfiles
+success "dotfiles Setup"
+#Colours and theme
+info "Setup Colourings"
+install_colours
+success "Colours Setup"
+info "Tidy up and complete"
+finish_off
+success "Complete"
+
+#hidden files and dir on Linux
 
 echo ''
 echo ' Complete!'

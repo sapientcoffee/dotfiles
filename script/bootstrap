@@ -47,15 +47,18 @@ fail () {
 
 setup_gitconfig () {
     # blah blah blah
-
+    success "..Setting up!"
     if ! [ -f git/gitconfig.symlink ]
     then
         info 'setup gitconfig'
         git_credential='cache'
+
     if [ "$(uname -s)" == "Darwin" ]
     then
         git_credential='osxkeychain'
+        sucess "..Configured!"
     fi
+
     info "Configuring Github settings ..... "
     user ' - What is your github author name?'
     read -e git_authorname
@@ -71,25 +74,14 @@ install_zsh () {
   if [ -d ~/.oh-my-zsh ]; then
     info '..oh-my-zsh already exists, removing so can be replaced with latest!'
     rm -rf ~/.oh-my-zsh
-  fi
-
+  #fi
 
     info 'Installing ZSH '
-
-
-    if [$FLAVOUR = mac]; then
+    if [$FLAVOUR = "mac"]; then
       git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
       # Copy each extension to custom dir
       success '..Oh-My-ZSH GitHub repo Cloned'
-    # elif [[ "$FLAVOUR" = redhat ]]; then
-    #
-    # elif [[ "$FLAVOUR" = Debian ]]; then
-    #
-    # else
-	  #
-    # fi
-
-    if [[ -x /usr/bin/curl ]]; then
+    elif [[ -x /usr/bin/curl ]]; then
       sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
       success '..Oh-My-ZSH installed via curl'
     elif [[ -x /usr/bin/wget ]]; then
@@ -208,7 +200,7 @@ finish_off () {
 }
 
 # If we're on a Mac, let's install and setup homebrew.
-if [ "$(uname -s)" == "Darwin" ] then
+if [ "$(uname -s)" == "Darwin" ]; then
     info "Detected Darwin (Mac) based operating system"
     FLAVOUR="mac"
     # info "Detected macOS"
@@ -230,29 +222,28 @@ if [ "$(uname -s)" == "Darwin" ] then
 elif [ -f /etc/debian_version ]; then
 # Might look at using if [[ -x /usr/bin/apt-get ]]; then
     info "Detected Debian based operating system"
-    info "Installing dependencies"
+    #info "Installing dependencies"
     FLAVOUR="Debian"
     #VER=$(cat /etc/debian_version)
 elif [ -f /etc/redhat-release ]; then
 # Might look to change to use elif [[ -x /usr/bin/yum ]]; then
     info "Detected RetHat variant (RHEL/Centos) operating system"
-    info "Installing dependencies"
+    #info "Installing dependencies"
     FLAVOUR="Redhat"
     #install_zsh_yum
-
 else
   fail "[ERROR] Cannot detect operating system"
 
 fi
 
 
-info "setup GitHub"
+info "Setup GitHub"
 setup_gitconfig
-info "setup zsh"
+info "Setup zsh"
 install_zsh
-info "setup dotfiles"
-install_dotfiles
-finish_off
+#info "Setup dotfiles"
+#install_dotfiles
+#finish_off
 
 echo ''
 echo ' Complete!'

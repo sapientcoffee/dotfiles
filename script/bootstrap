@@ -67,7 +67,7 @@ setup_gitconfig () {
     sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.symlink.example > git/gitconfig.symlink
     success 'gitconfig'
     fi
-    sucess "..Configured!"
+    success "..Configured!"
 }
 
 install_zsh () {
@@ -179,7 +179,7 @@ install_colours () {
   mkdir ~/.vim/colors/
   success "..Solarized Installed"
   info "..Configure vim"
-  mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
+  mkdir -p ~/.vim/colors/; mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
   success "..vim colors setup"
   info "..Configure GRC"
   git clone https://github.com/garabik/grc.git

@@ -20,7 +20,7 @@ UNAMER=$(uname -r)
 #
 # bootstrap installs things.
 cd "$(dirname "$0")/.."
-DOTFILES_ROOT=$(pwd)
+DOTFILES_ROOT=$(pwd -P)
 set -e
 echo ''
 
@@ -50,7 +50,7 @@ setup_gitconfig () {
     success "..Setting up!"
     if ! [ -f git/gitconfig.symlink ]
     then
-        info 'setup gitconfig'
+        #info 'setup gitconfig'
         git_credential='cache'
 
     if [ "$(uname -s)" == "Darwin" ]
@@ -59,7 +59,7 @@ setup_gitconfig () {
         sucess "..Configured!"
     fi
 
-    info "Configuring Github settings ..... "
+    #info "Configuring Github settings ..... "
     user ' - What is your github author name?'
     read -e git_authorname
     user ' - What is your github author email?'
@@ -161,7 +161,7 @@ link_file () {
 }
 
 install_dotfiles () {
-    info '..Installing dotfiles'
+    #info '..Installing dotfiles'
     local overwrite_all=false backup_all=false skip_all=false
     for src in $(find "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink')
     do
@@ -173,7 +173,7 @@ install_dotfiles () {
 
 install_colours () {
   #
-  info "..Solarized Colors Setup"
+  #info "..Solarized Colors Setup"
   git clone --quiet https://github.com/altercation/vim-colors-solarized.git >/dev/null
   if [ ! -d ~/.vim/colors ]; then
     mkdir -p ~/.vim/colors
@@ -182,13 +182,13 @@ install_colours () {
   mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
   #mkdir ~/.vim/colors/
   success "..Solarized Installed"
-  info "..Configure vim"
+  #info "..Configure vim"
   # if [ ! -d ~/.vim/colors ]; then
   #   mkdir -p ~/.vim/colors
   # fi
   success "..vim colors setup"
 
-  info "..Configure GRC"
+  #info "..Configure GRC"
   git clone --quiet https://github.com/garabik/grc.git ~/.grc >/dev/null
   #cd ./grc
   success "..GRC setup"
@@ -204,7 +204,7 @@ finish_off () {
     #else
     #    echo "something else"
     fi
-    sudo ../install.#!/bin/sh
+    #sudo ../install.#!/bin/sh
     #cd ..
 
 }
@@ -265,6 +265,8 @@ finish_off
 success "Complete"
 
 #hidden files and dir on Linux
+# make zsh default
+# reread .zshrc file
 
 echo ''
 echo ' Complete!'

@@ -71,32 +71,42 @@ setup_gitconfig () {
 }
 
 install_zsh () {
-  success "..Checking ZSH"
+  success "..Checking ZSH config"
+
+  #apt-get install git-core
   if [ -d ~/.oh-my-zsh ]; then
     info "..oh-my-zsh already exists, removing so can be replaced with latest!"
     rm -rf ~/.oh-my-zsh
     success ".. Removed!"
   fi
-    success "Installing ZSH"
-    #if [$FLAVOUR = "osx"]; then
-      git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh >/dev/null
-      # Copy each extension to custom dir
-      success '..Oh-My-ZSH GitHub repo Cloned'
-    #elif [[ -x /usr/bin/curl ]]; then
-    #  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    #  success '..Oh-My-ZSH installed via curl'
-    #elif [[ -x /usr/bin/wget ]]; then
-    #  sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-    #  success '..Oh-My-ZSH installed via wget'
-    #else
-    #  fail "[ERROR] Curl or wget not installed"
-      # write code to install it.
-    #fi
-    #if [$OS == 'Redhat']; then
-    #    sudo yum -y install zsh >/dev/null
-    #    success '..zsh installed'
+    success "..Installing oh-my-zsh"
+    if [$OS == 'Redhat']; then
+        sudo yum -y install zsh >/dev/null
         #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    #fi
+      elif [$OS == "Debian"]; then
+        sudo apt-get -y install zsh >/dev/null
+    fi
+    success '..zsh installed'
+
+    #if [$FLAVOUR = "osx"]; then
+      #git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh >/dev/null
+      # Copy each extension to custom dir
+      #success '..Oh-My-ZSH GitHub repo Cloned'
+    if [[ -x /usr/bin/curl ]]; then
+     #sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+     curl -OL https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh
+     bash install.sh
+     success '..Oh-My-ZSH installed via curl'
+    elif [[ -x /usr/bin/wget ]]; then
+      wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -
+      bash install.sh
+      #sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+      success '..Oh-My-ZSH installed via wget'
+    else
+     fail "[ERROR] Curl or wget not installed"
+      write code to install it.
+    fi
+
     #done
 }
 

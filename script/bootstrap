@@ -188,7 +188,7 @@ install_colours () {
   if [ -d ~/.vim/colors ]; then
     info "..Removing ~/.vim/colors directory!"
     rm -rf ~/.vim/colors
-  else;
+  else
     mkdir -p ~/.vim/colors;
   fi
   git clone --quiet https://github.com/altercation/vim-colors-solarized.git ~/.vim/colors-solarized >/dev/null

@@ -79,7 +79,7 @@ install_zsh () {
   fi
     success "Installing ZSH"
     #if [$FLAVOUR = "osx"]; then
-      git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
+      git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh >/dev/null
       # Copy each extension to custom dir
       success '..Oh-My-ZSH GitHub repo Cloned'
     #elif [[ -x /usr/bin/curl ]]; then
@@ -174,15 +174,18 @@ install_dotfiles () {
 install_colours () {
   #
   info "..Solarized Colors Setup"
-  git clone https://github.com/altercation/vim-colors-solarized.git
+  git clone https://github.com/altercation/vim-colors-solarized.git >/dev/null
   mkdir -p ~/.vim/colors/; mv vim-colors-solarized/colors/solarized.vim $_
   mkdir ~/.vim/colors/
   success "..Solarized Installed"
   info "..Configure vim"
-  mkdir -p ~/.vim/colors/; mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
+  if [ -d ~/.vim/colors ]; then
+    mkdir -p ~/.vim/colors/
+  fi
+  mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
   success "..vim colors setup"
   info "..Configure GRC"
-  git clone https://github.com/garabik/grc.git
+  git clone https://github.com/garabik/grc.git >/dev/null
   cd ./grc
   success "..GRC setup"
 

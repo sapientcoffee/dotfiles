@@ -174,12 +174,14 @@ install_dotfiles () {
 install_colours () {
   #
   #info "..Solarized Colors Setup"
-  git clone --quiet https://github.com/altercation/vim-colors-solarized.git >/dev/null
-  if [ ! -d ~/.vim/colors ]; then
-    mkdir -p ~/.vim/colors
+  if [ -d ~/.vim/colors ]; then
+    info "..Removing ~/.vim/colors directory!"
+    rm -rf ~/.vim/colors
   fi
-  mkdir -p ~/.vim/colors/;
-  mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
+  git clone --quiet https://github.com/altercation/vim-colors-solarized.git ~/.vim/colors >/dev/null
+
+  #mkdir -p ~/.vim/colors/;
+  #mv vim-colors-solarized/colors/solarized.vim ~/.vim/colors/
   #mkdir ~/.vim/colors/
   success "..Solarized Installed"
   #info "..Configure vim"
@@ -189,6 +191,10 @@ install_colours () {
   success "..vim colors setup"
 
   #info "..Configure GRC"
+  if [ -d ~/.grc ]; then
+    info "..Removing ~/.grc directory!"
+    rm -rf ~/.grc
+  fi
   git clone --quiet https://github.com/garabik/grc.git ~/.grc >/dev/null
   #cd ./grc
   success "..GRC setup"

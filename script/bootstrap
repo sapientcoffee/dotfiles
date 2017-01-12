@@ -35,7 +35,7 @@ setup_gitconfig () {
     then
         git_credential='osxkeychain'
     fi
-    info "Configuring up Github settings ..... "
+    info "Configuring Github settings ..... "
     #git config --global http.proxy http://proxy.esl.cisco.com:80
     user ' - What is your github author name?'
     read -e git_authorname
@@ -118,11 +118,11 @@ install_dotfiles () {
 
 install_zsh () {
     info 'Installing ZSH '
-    if [$OS == 'Redhat']; then
-        sudo yum -y install zsh >/dev/null
-        success '..zsh installed'
+    #if [$OS == 'Redhat']; then
+    #    sudo yum -y install zsh >/dev/null
+    #    success '..zsh installed'
         #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    if
+    #fi
 
     git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
     success '..Oh-My-ZSH GitHub repo Cloned'
@@ -162,6 +162,14 @@ if [ "$(uname -s)" == "Darwin" ]
 then
     info "Detected macOS"
     info "Installing dependencies"
+    info "setup GitHub"
+    setup_gitconfig
+    info "setup zsh"
+    install_zsh
+    info "setup dotfiles"
+    install_dotfiles
+    info "finish off"
+    finish_off
     if source bin/dot > /tmp/dotfiles-dot 2>&1
     then
         success "Dependencies installed"
@@ -183,7 +191,7 @@ fi
 
 
 setup_gitconfig
-#install_zsh
+install_zsh
 install_dotfiles
 finish_off
 

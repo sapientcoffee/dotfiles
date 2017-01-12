@@ -1,5 +1,21 @@
 #!/usr/bin/env bash
 
+#==============================================================================
+# Title:
+# Description:
+# Copyright:
+# Author:          	Rob Edwards (robedwa/@clijockey)
+# Date:
+# Version:
+# Dependencies:
+# Parameters:
+#
+# License:          Copying and distribution of this file, with or without modification,
+#                   are permitted in any medium without royalty provided the copyright
+#                   notice, original author and this notice are preserved. This file is
+#                   offered as-is, without any warranty.
+#==============================================================================
+
 UNAMER=$(uname -r)
 #
 # bootstrap installs things.
@@ -8,6 +24,8 @@ DOTFILES_ROOT=$(pwd)
 set -e
 echo ''
 
+
+# Set some output colours to feedback during setup
 info () {
     printf " [ \033[00;34m..\033[0m ] $1\n"
 }
@@ -26,7 +44,10 @@ fail () {
     exit
 }
 
+
 setup_gitconfig () {
+    # blah blah blah
+
     if ! [ -f git/gitconfig.symlink ]
     then
         info 'setup gitconfig'
@@ -36,7 +57,6 @@ setup_gitconfig () {
         git_credential='osxkeychain'
     fi
     info "Configuring Github settings ..... "
-    #git config --global http.proxy http://proxy.esl.cisco.com:80
     user ' - What is your github author name?'
     read -e git_authorname
     user ' - What is your github author email?'
@@ -45,6 +65,48 @@ setup_gitconfig () {
     success 'gitconfig'
     fi
 }
+
+install_zsh () {
+  info 'Checking ZSH '
+  if [ -d ~/.oh-my-zsh ]; then
+    info '..oh-my-zsh already exists, removing so can be replaced with latest!'
+    rm -rf ~/.oh-my-zsh
+  fi
+
+
+    info 'Installing ZSH '
+
+
+    if [$FLAVOUR = mac]; then
+      git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
+      # Copy each extension to custom dir
+      success '..Oh-My-ZSH GitHub repo Cloned'
+    # elif [[ "$FLAVOUR" = redhat ]]; then
+    #
+    # elif [[ "$FLAVOUR" = Debian ]]; then
+    #
+    # else
+	  #
+    # fi
+
+    if [[ -x /usr/bin/curl ]]; then
+      sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+      success '..Oh-My-ZSH installed via curl'
+    elif [[ -x /usr/bin/wget ]]; then
+      sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+      success '..Oh-My-ZSH installed via wget'
+    else
+      fail "[ERROR] Curl or wget not installed"
+      # write code to install it.
+    fi
+    #if [$OS == 'Redhat']; then
+    #    sudo yum -y install zsh >/dev/null
+    #    success '..zsh installed'
+        #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    #fi
+    #done
+}
+
 
 link_file () {
     local src=$1 dst=$2
@@ -116,18 +178,6 @@ install_dotfiles () {
     success 'dotfiles configured!'
 }
 
-install_zsh () {
-    info 'Installing ZSH '
-    #if [$OS == 'Redhat']; then
-    #    sudo yum -y install zsh >/dev/null
-    #    success '..zsh installed'
-        #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    #fi
-
-    git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
-    success '..Oh-My-ZSH GitHub repo Cloned'
-    #done
-}
 
 finish_off () {
     if [[ ${UNAMER} =~ .*\.amzn1.* ]]
@@ -158,40 +208,49 @@ finish_off () {
 }
 
 # If we're on a Mac, let's install and setup homebrew.
-if [ "$(uname -s)" == "Darwin" ]
-then
-    info "Detected macOS"
-    info "Installing dependencies"
-    info "setup GitHub"
-    setup_gitconfig
-    info "setup zsh"
-    install_zsh
-    info "setup dotfiles"
-    install_dotfiles
-    info "finish off"
-    finish_off
-    if source bin/dot > /tmp/dotfiles-dot 2>&1
-    then
-        success "Dependencies installed"
-    else
-        fail "Error installing dependencies"
-    fi
+if [ "$(uname -s)" == "Darwin" ] then
+    info "Detected Darwin (Mac) based operating system"
+    FLAVOUR="mac"
+    # info "Detected macOS"
+    # info "Installing dependencies"
+    # info "setup GitHub"
+    # setup_gitconfig
+    # info "setup zsh"
+    # install_zsh
+    # info "setup dotfiles"
+    # install_dotfiles
+    # info "finish off"
+    # finish_off
+    # if source bin/dot > /tmp/dotfiles-dot 2>&1
+    # then
+    #     success "Dependencies installed"
+    # else
+    #     fail "Error installing dependencies"
+    # fi
 elif [ -f /etc/debian_version ]; then
+# Might look at using if [[ -x /usr/bin/apt-get ]]; then
     info "Detected Debian based operating system"
     info "Installing dependencies"
-    OS=Debian
+    FLAVOUR="Debian"
     #VER=$(cat /etc/debian_version)
 elif [ -f /etc/redhat-release ]; then
+# Might look to change to use elif [[ -x /usr/bin/yum ]]; then
     info "Detected RetHat variant (RHEL/Centos) operating system"
     info "Installing dependencies"
-    OS=Redhat
+    FLAVOUR="Redhat"
     #install_zsh_yum
+
+else
+  fail "[ERROR] Cannot detect operating system"
+
 fi
 
 
-
+info "setup GitHub"
 setup_gitconfig
+info "setup zsh"
 install_zsh
+info "setup dotfiles"
 install_dotfiles
 finish_off
 

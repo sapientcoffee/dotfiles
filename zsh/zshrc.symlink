@@ -49,7 +49,7 @@ COMPLETION_WAITING_DOTS="true"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM="~/.oh-my-zsh/custom"
+# ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -57,13 +57,13 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 # plugins=(aws brew colorize docker docker-compose cake git github gitignore go iwhois sublime osx git-flow git-extras git-prompt npm osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search battery sublime)
 #iplugins=(aws brew colorize docker docker-compose cake git go iwhois osx osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages theme web-search battery)
-plugins=(cf bosh colorize docker docker-compose git github gitignore go iwhois git-flow git-extras git-prompt pip python ssh-agent sudo vagrant colored-man-pages theme web-search battery)
+plugins=(colorize docker docker-compose cake git github gitignore go iwhois osx git-flow git-extras git-prompt npm osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search battery)
 # User configuration
 
 export PATH="/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:$PATH:/sbin:/opt/X11/bin:~/bin:/Users/robedwa/bin:/Users/robedwa/bin/terraform"
 export MANPATH="/usr/local/man:$MANPATH"
 
-# source $ZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -142,6 +142,13 @@ alias taillast='tail -f $lastlogdir/*(om[1])'
 alias catlast='< $lastlogdir/*(om[1])'
 alias lesslast='less $lastlogdir/*(om[1])'
 
+# SSH aliases
+alias 'ssh-dev=ssh sheladmin@infrastructure-dev.ukidcv.cisco.com'
+alias 'ssh-demo=ssh sheladmin@infrastructure.ukidcv.cisco.com'
+
+# Rhino JS alias
+alias rhino='java org.mozilla.javascript.tools.shell.Main'
+
 # A few nice settings
 for option (
 		noautomenu 	# don't select stuff automatically when tabbing if there are options
@@ -176,8 +183,23 @@ if [[ -x `which grc` ]]; then
   alias ifconfig='colourify ifconfig'
 fi
 
+#dcloud alias
+alias icf='dcloud-connect v12user1 979240'
+alias cliqr='dcloud-connect v620user1 41ee9e'
+alias ucsd='dcloud-connect v876user1 3e8cec'
+alias ecs='dcloud-connect v343user1 84fd83'
+
+#Cisco Cloud Center  alias for quick ssh
+alias ccm='ssh root@cloud-center-ccm.ukidcv.cisco.com'
+alias cco='ssh root@cloud-center-cco.ukidcv.cisco.com'
+alias rabbit='ssh root@cloud-center-rabbit.ukidcv.cisco.com'
+alias monitor='ssh root@cloud-center-monitor.ukidcv.cisco.com'
+alias repo='ssh root@cloud-center-repo.ukidcv.cisco.com'
+
 #alias colourify="grc -es --colour=auto"
 #alias configure='colourify ./configure'
+alias cecs=/Users/robedwa/Documents/Development/Projects/UCSD/Python/cecs/examples/cecs-cli.py
+alias projects="cd /Users/robedwa/Documents/Development/Projects/"
 
 # Python virtualenv setup and pip
 # pip should only run if there is a virtualenv currently activated
@@ -193,9 +215,9 @@ export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 # ==========================
 # Cloud Access Env Variables
 # ==========================
-# Check if OpenStack RC file exists:
-if [[ -f $HOME/.openstack_credentials ]]; then
-	source $HOME/.openstack_credentials
+# Check if cloud file exists:
+if [[ -f $HOME/.cloud_credentials ]]; then
+	source $HOME/.cloud_credentials
 fi
 # Load local system stuff (local PATH, aliases etc)
 if [[ -f $HOME/.zsh_local ]]; then

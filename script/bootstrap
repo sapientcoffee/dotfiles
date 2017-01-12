@@ -89,19 +89,21 @@ install_zsh () {
   success '..zsh installed'
 
     #if [$FLAVOUR = "osx"]; then
-      #git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh >/dev/null
+      git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh >/dev/null
       # Copy each extension to custom dir
-      #success '..Oh-My-ZSH GitHub repo Cloned'
+      success '..Oh-My-ZSH GitHub repo Cloned'
+      mkdir -p ~/.oh-my-zsh/custom/themes
     if [[ -x /usr/bin/curl ]]; then
-     sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
-     #curl -OL https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh
-     #sudo bash install.sh
-     success '..Oh-My-ZSH installed via curl'
+    #  sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
+    #  success "..Oh-My-ZSH installed via curl"
+     curl https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh --output ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme --silent
+     success "..SpaceShip Theme Installed"
     elif [[ -x /usr/bin/wget ]]; then
-      #wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -
-      #sudo bash install.sh
-      sudo sh -c "$(wget -quiet https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" > /dev/null
-      success '..Oh-My-ZSH installed via wget'
+      # sudo sh -c "$(wget -quiet https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" > /dev/null
+      # success "..Oh-My-ZSH installed via wget"
+      wget –quiet –output-document ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
+      #wget -O ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/install.sh | zsh
+      success "..SpaceShip Theme Installed"
     else
      fail "[ERROR] Curl or wget not installed"
       write code to install it.
@@ -186,6 +188,7 @@ install_colours () {
   if [ -d ~/.vim/colors-solarized ]; then
     info "..Removing ~/.vim/colors directory!"
     rm -rf ~/.vim/colors-solarized
+  fi
   if [ ! -d ~/.vim/colors/ ]; then
     mkdir -p ~/.vim/colors;
   fi

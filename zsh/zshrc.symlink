@@ -223,3 +223,15 @@ fi
 if [[ -f $HOME/.zsh_local ]]; then
 	source $HOME/.zsh_local
 fi
+
+# ==========================
+# iTerm Magic
+# ==========================
+source ~/.iterm2_shell_integration.`basename $SHELL`
+
+function iterm2_print_user_vars() {
+  iterm2_set_user_var gitBranch $((git branch 2> /dev/null) | grep \* | cut -c3-)
+  iterm2_set_user_var gitRepo $((git remote show origin 2> /dev/null) | grep "Fetch URL:" | cut -c14-)
+}
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

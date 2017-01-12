@@ -79,12 +79,12 @@ install_zsh () {
   fi
 
   success "..Installing oh-my-zsh"
-  if [$OS == 'Redhat']; then
-    sudo yum -y install zsh >/dev/null;
+  if [ "$OS" == 'Redhat' ]; then
+    sudo yum install -y -q zsh
     success "..zsh installed via yum."
     #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  elif [$OS == "Debian"]; then
-    sudo apt-get -y install zsh >/dev/null;
+  elif [ "$OS" == "Debian" ]; then
+    sudo apt-get -y install zsh > /dev/null
     success "..zsh installed via apt-get."
   fi
   success '..zsh installed'
@@ -94,7 +94,7 @@ install_zsh () {
       # Copy each extension to custom dir
       #success '..Oh-My-ZSH GitHub repo Cloned'
     if [[ -x /usr/bin/curl ]]; then
-     sudo sh -c "$(curl -fsSL -silent https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
+     sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
      #curl -OL https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh
      #sudo bash install.sh
      success '..Oh-My-ZSH installed via curl'

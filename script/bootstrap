@@ -90,18 +90,18 @@ install_zsh () {
   success '..zsh installed'
 
     #if [$FLAVOUR = "osx"]; then
-      git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
+      #git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
       # Copy each extension to custom dir
-      success '..Oh-My-ZSH GitHub repo Cloned'
+      #success '..Oh-My-ZSH GitHub repo Cloned'
       mkdir -p ~/.oh-my-zsh/custom/themes
     if [[ -x /usr/bin/curl ]]; then
-    #  sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
-    #  success "..Oh-My-ZSH installed via curl"
+      sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
+      success "..Oh-My-ZSH installed via curl"
      curl https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh --output ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme --silent
      success "..SpaceShip Theme Installed"
     elif [[ -x /usr/bin/wget ]]; then
-      # sudo sh -c "$(wget -quiet https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" > /dev/null
-      # success "..Oh-My-ZSH installed via wget"
+      sudo sh -c "$(wget -quiet https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" > /dev/null
+      success "..Oh-My-ZSH installed via wget"
       wget –quiet –output-document ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
       #wget -O ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/install.sh | zsh
       success "..SpaceShip Theme Installed"
@@ -109,8 +109,6 @@ install_zsh () {
      fail "[ERROR] Curl or wget not installed"
       write code to install it.
     fi
-
-    #done
 }
 
 link_file () {
@@ -222,6 +220,8 @@ finish_off () {
     #sudo ../install.#!/bin/sh
     #cd ..
 
+    #curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
+    curl -L https://iterm2.com/misc/install_shell_integration_and_utilities.sh | bash
 }
 
 # If we're on a Mac, let's install and setup homebrew.
@@ -260,7 +260,7 @@ install_colours
 success "..Colours Setup"
 info "Tidy up and complete"
 finish_off
-sudo chsh -s $(which zsh)
+sudo chsh -s `which zsh`
 success "Complete"
 
 #hidden files and dir on Linux

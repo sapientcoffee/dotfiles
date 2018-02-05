@@ -45,3 +45,5 @@ source “/etc/grc.bashrc”‘
 export PIP_REQUIRE_VIRTUALENV=true
 # cache pip-installed packages to avoid re-downloading
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+
+export PATH=/Users/redwards/Downloads/google-cloud-sdk/bin:/usr/local/opt/pyenv/shims:/usr/local/opt/pyenv/bin:/bin:/Users/redwards/go-workspace/bin:/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/sbin:/opt/X11/bin:~/bin:/Users/redwards/bin:/Users/redwards/bin/terraform:/Users/redwards/.vimpkg/bin

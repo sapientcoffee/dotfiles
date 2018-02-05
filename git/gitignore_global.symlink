@@ -20,6 +20,7 @@
 *.rar
 *.tar
 *.zip
+*.pivotal
 
 # Logs and databases #
 ######################

@@ -208,6 +208,24 @@ install_colours () {
 
 }
 
+work_cli () {
+
+  # Add the Cloud Foundry Foundation public key and package repository to your system
+  wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+  echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+  sudo apt-get update
+  sudo apt-get install cf-cli
+
+  sudo wget -O /etc/yum.repos.d/cloudfoundry-cli.repo https://packages.cloudfoundry.org/fedora/cloudfoundry-cli.repo
+  sudo yum install cf-cli
+
+  brew tap cloudfoundry/tap
+  brew install cf-cli
+
+
+
+}
+
 finish_off () {
     if [[ ${UNAMER} =~ .*\.amzn1.* ]]
     then
@@ -221,7 +239,7 @@ finish_off () {
     #cd ..
 
     #curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
-    curl -L https://iterm2.com/misc/install_shell_integration_and_utilities.sh | bash
+    curl -L https://iterm2.com/misc/install_shell_integration_and_utilities.sh | zsh
 }
 
 # If we're on a Mac, let's install and setup homebrew.
@@ -260,7 +278,8 @@ install_colours
 success "..Colours Setup"
 info "Tidy up and complete"
 finish_off
-sudo chsh -s `which zsh`
+#sudo chsh -s `which zsh`
+sudo usermod -s /bin/zsh $USER
 success "Complete"
 
 #hidden files and dir on Linux

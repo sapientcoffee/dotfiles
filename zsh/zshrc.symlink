@@ -7,12 +7,18 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="seeker"
+
 
 #Testing for new ones
 
+#ZSH_THEME="clijockey"
+#ZSH_THEME="nanotech"
 ZSH_THEME="spaceship"
+#ZSH_THEME="pygmalion"
+
+# Old themes playd with.
+#ZSH_THEME="robbyrussell"
+#ZSH_THEME="seeker"
 #ZSH_THEME="seeker"
 ##ZSH_THEME="Honukai"
 #ZSH_THEME="nanotech" # most recent
@@ -41,7 +47,7 @@ COMPLETION_WAITING_DOTS="true"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -57,13 +63,20 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 # plugins=(aws brew colorize docker docker-compose cake git github gitignore go iwhois sublime osx git-flow git-extras git-prompt npm osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search battery sublime)
 #iplugins=(aws brew colorize docker docker-compose cake git go iwhois osx osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages theme web-search battery)
-plugins=(colorize docker docker-compose cake git github gitignore go iwhois osx git-flow git-extras git-prompt npm osx pip pyenv python screen ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search battery)
+# Taken out zsh-autosuggestions
+#plugins=(fly cf bosh colorize docker docker-compose git github gitignore git-flow git-extras git-prompt npm pip pyenv python ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search)
+plugins=(fly cf bosh colorize docker docker-compose git github gitignore git-flow git-extras git-prompt npm pip pyenv python sudo vagrant virtualenv colored-man-pages node theme web-search)
+
 # User configuration
 
-export PATH="/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:$PATH:/sbin:/opt/X11/bin:~/bin:/Users/robedwa/bin:/Users/robedwa/bin/terraform"
+#export GOROOT="/usr/local/opt/go"
+export GOPATH="/Users/redwards/go-workspace"
+export PATH="$GOROOT/bin:$GOPATH/bin:/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:$PATH:/sbin:/opt/X11/bin:~/bin:/Users/redwards/bin:/Users/redwards/bin/terraform"
 export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
+
+export JAVA_HOME=$(/usr/libexec/java_home)
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -115,6 +128,12 @@ alias 'cd..=cd ..'
 alias ll='ls -lrta'
 alias l='ls -CF'
 
+if command -v ggrep >/dev/null 2>&1; then
+  alias grep="ggrep --color=auto"
+fi
+
+alias cat='ccat'
+
 # For Git
 alias 'gk=z gitk --all'
 alias 'gs=git status' # (NB overriding GhostScript)
@@ -141,13 +160,6 @@ lastlogdir=logs
 alias taillast='tail -f $lastlogdir/*(om[1])'
 alias catlast='< $lastlogdir/*(om[1])'
 alias lesslast='less $lastlogdir/*(om[1])'
-
-# SSH aliases
-alias 'ssh-dev=ssh sheladmin@infrastructure-dev.ukidcv.cisco.com'
-alias 'ssh-demo=ssh sheladmin@infrastructure.ukidcv.cisco.com'
-
-# Rhino JS alias
-alias rhino='java org.mozilla.javascript.tools.shell.Main'
 
 # A few nice settings
 for option (
@@ -183,23 +195,8 @@ if [[ -x `which grc` ]]; then
   alias ifconfig='colourify ifconfig'
 fi
 
-#dcloud alias
-alias icf='dcloud-connect v12user1 979240'
-alias cliqr='dcloud-connect v620user1 41ee9e'
-alias ucsd='dcloud-connect v876user1 3e8cec'
-alias ecs='dcloud-connect v343user1 84fd83'
-
-#Cisco Cloud Center  alias for quick ssh
-alias ccm='ssh root@cloud-center-ccm.ukidcv.cisco.com'
-alias cco='ssh root@cloud-center-cco.ukidcv.cisco.com'
-alias rabbit='ssh root@cloud-center-rabbit.ukidcv.cisco.com'
-alias monitor='ssh root@cloud-center-monitor.ukidcv.cisco.com'
-alias repo='ssh root@cloud-center-repo.ukidcv.cisco.com'
-
 #alias colourify="grc -es --colour=auto"
 #alias configure='colourify ./configure'
-alias cecs=/Users/robedwa/Documents/Development/Projects/UCSD/Python/cecs/examples/cecs-cli.py
-alias projects="cd /Users/robedwa/Documents/Development/Projects/"
 
 # Python virtualenv setup and pip
 # pip should only run if there is a virtualenv currently activated
@@ -211,6 +208,8 @@ export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 #gpip(){
 #	   PIP_REQUIRE_VIRTUALENV="" pip "$@"
 #}
+
+export CF_COLOR=true
 
 # ==========================
 # Cloud Access Env Variables
@@ -227,11 +226,50 @@ fi
 # ==========================
 # iTerm Magic
 # ==========================
-source ~/.iterm2_shell_integration.`basename $SHELL`
+#source ~/.iterm2_shell_integration.`basename $SHELL`
 
-function iterm2_print_user_vars() {
-  iterm2_set_user_var gitBranch $((git branch 2> /dev/null) | grep \* | cut -c3-)
-  iterm2_set_user_var gitRepo $((git remote show origin 2> /dev/null) | grep "Fetch URL:" | cut -c14-)
-}
+#function iterm2_print_user_vars() {
+  #iterm2_set_user_var gitBranch $((git branch 2> /dev/null) | grep \* | cut -c3-)
+  #iterm2_set_user_var gitRepo $((git remote show origin 2> /dev/null) | grep "Fetch URL:" | cut -c14-)
+#}
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+#test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f /Users/redwards/Downloads/google-cloud-sdk/path.zsh.inc ]; then
+  source '/Users/redwards/Downloads/google-cloud-sdk/path.zsh.inc'
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f /Users/redwards/Downloads/google-cloud-sdk/completion.zsh.inc ]; then
+  source '/Users/redwards/Downloads/google-cloud-sdk/completion.zsh.inc'
+fi
+
+# ==========================
+# CF CLI
+# ==========================
+CF_COLOR=true
+
+# Work out logic to understand what he current ln is pointing to!
+CF_HOME="~/.cf/"
+
+
+#alias pws="ln -sfn "~/.cf/pws/config.json" "~/.cf/config.json"; CF_TAR=PWS"
+#alias pez="ln -sfn "~/.cf/pez/config.json" "~/.cf/config.json"; CF_TAR=HaaS"
+#alias haas="ln -sfn "~/.cf/pez/config.json" "~/.cf/config.json"; CF_TAR=HaaS"
+
+#alias pws="export CF_HOME=~/.cf/pws/; CF_TAR=PWS"
+#alias pez="export CF_HOME=~/.cf/PEZ/; CF_TAR=HaaS"
+#alias haas="export CF_HOME=~/.cf/PEZ/; CF_TAR=HaaS"
+
+# added by https://github.com/EngineerBetter/cdgo-cli
+#function cdgo { cd $(cdgo-cli -needle="$@") ; }
+#function cdwork { cd $(cdgo-cli -haystackType=work -needle="$@") ; }
+
+# fortune | cowsay
+
+export PATH=/Users/redwards/Downloads/google-cloud-sdk/bin:/usr/local/opt/pyenv/shims:/usr/local/opt/pyenv/bin:/bin:/Users/redwards/go-workspace/bin:/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/sbin:/opt/X11/bin:~/bin:/Users/redwards/bin:/Users/redwards/bin/terraform:/Users/redwards/.vimpkg/bin
+
+export BOSH_CLIENT=admin
+export BOSH_CLIENT_SECRET=`bosh int ~/creds/gcp-lab-bosh.yml --path /admin_password`
+

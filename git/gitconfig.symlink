@@ -7,6 +7,7 @@
 	email = rob.j.edwards@gmail.com
 [core]
 	excludesfile = /Users/robedwa/.gitignore_global
+	hooksPath = /Users/redwards/workspace/pivotal/git-hooks-core
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 

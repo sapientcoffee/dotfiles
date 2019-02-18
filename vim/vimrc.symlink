@@ -80,9 +80,9 @@ set paste
 " Finally map the 'enter' key
 :imap <Esc>OM <CR>
 
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-autocmd vimenter * NERDTree
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd vimenter * NERDTree
 
 execute pathogen#infect()
 call pathogen#helptags()

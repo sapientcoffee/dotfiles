@@ -9,7 +9,7 @@ if [[ "$unamestr" == 'Darwin' ]]; then
             ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         fi
     # Install homebrew packages
-    brew install grc coreutils spark z ack git autoconf git-extras htop-osx python python3 openconnect openssl wget tree tmux
+    brew install grc coreutils spark z ack git autoconf git-extras htop-osx python python3 openconnect openssl wget tree tmux kubespy kube-ps1
     exit 0
 else
     echo "Not running OSX therefore skipping Homebrew install"

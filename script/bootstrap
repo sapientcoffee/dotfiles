@@ -84,8 +84,9 @@ install_zsh () {
     success "..zsh installed via yum."
     #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
   elif [ "$FLAVOUR" == Debian ]; then
-    sudo apt-get -y install zsh > /dev/null
-    success "..zsh installed via apt-get."
+    #sudo apt-get -y install zsh > /dev/null
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
+    success "..zsh installed for debian based system"
   fi
   success '..zsh installed'
 
@@ -95,13 +96,13 @@ install_zsh () {
       #success '..Oh-My-ZSH GitHub repo Cloned'
       mkdir -p ~/.oh-my-zsh/custom/themes
     if [[ -x /usr/bin/curl ]]; then
-      sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
-      success "..Oh-My-ZSH installed via curl"
+    #   sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
+    #   success "..Oh-My-ZSH installed via curl"
      curl https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh --output ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme --silent
      success "..SpaceShip Theme Installed"
     elif [[ -x /usr/bin/wget ]]; then
-      sudo sh -c "$(wget -quiet https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" > /dev/null
-      success "..Oh-My-ZSH installed via wget"
+    #   sudo sh -c "$(wget -quiet https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" > /dev/null
+    #   success "..Oh-My-ZSH installed via wget"
       wget –quiet –output-document ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
       #wget -O ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/install.sh | zsh
       success "..SpaceShip Theme Installed"

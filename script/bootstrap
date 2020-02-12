@@ -87,6 +87,8 @@ install_zsh () {
     #sudo apt-get -y install zsh > /dev/null
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
     success "..zsh installed for debian based system"
+  elif [ "$FLAVOUR" == osx ]; then
+    git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
   fi
   success '..zsh installed'
 
@@ -110,6 +112,20 @@ install_zsh () {
      fail "[ERROR] Curl or wget not installed"
       write code to install it.
     fi
+
+    # chsh -s $(which zsh)
+
+    cd ~/.oh-my-zsh/themes
+    curl -O "https://github.com/andrewconnell/osx-install/raw/master/app-settings/iterm/bullet-train.zsh-theme"
+
+    cd ~/.oh-my-zsh/plugins
+    git clone https://github.com/frodenas/bosh-zsh-autocomplete-plugin.git bosh
+    git clone https://github.com/sbodiu-pivotal/fly-zsh-autocomplete-plugin.git fly
+    git clone https://github.com/dannyzen/cf-zsh-autocomplete-plugin.git cf
+
+    # install shell integration & utilities
+    curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
+
 }
 
 link_file () {
@@ -268,7 +284,7 @@ info "Setup GitHub"
 setup_gitconfig
 success "..GitHub Setup"
 info "Setup zsh"
-install_zsh
+# install_zsh
 success "..ZSH Setup"
 info "Setup dotfiles"
 install_dotfiles
@@ -280,7 +296,8 @@ success "..Colours Setup"
 info "Tidy up and complete"
 finish_off
 #sudo chsh -s `which zsh`
-sudo usermod -s /bin/zsh $USER
+#sudo usermod -s /bin/zsh $USER
+# sudo chsh -s /bin/zsh
 success "Complete"
 
 #hidden files and dir on Linux

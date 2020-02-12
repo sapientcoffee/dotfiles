@@ -12,7 +12,3 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 export PATH=$PATH:/Users/redwards/bin
 
 source '/Users/redwards/lib/azure-cli/az.completion'
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/redwards/.sdkman"
-[[ -s "/Users/redwards/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/redwards/.sdkman/bin/sdkman-init.sh"

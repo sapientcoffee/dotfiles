@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
 #==============================================================================
-# Title:
-# Description:
-# Copyright:
+# Description:      Bootstrap Script to get dotfiles setup and machine 
 # Author:          	Rob Edwards (robedwa/@clijockey)
-# Date:
-# Version:
-# Dependencies:
-# Parameters:
 #
 # License:          Copying and distribution of this file, with or without modification,
 #                   are permitted in any medium without royalty provided the copyright
 #                   notice, original author and this notice are preserved. This file is
 #                   offered as-is, without any warranty.
 #==============================================================================
+
+# use set -e instead of #!/bin/bash -e in case we're
+# called with `bash ~/bin/scriptname`
+set -e # bail out early if any command fails
+set -u # fail if we hit unset variables
+set -o pipefail # fail if any component of any pipe fails
 
 UNAMER=$(uname -r)
 #
@@ -42,32 +42,6 @@ fail () {
     printf "\r\033[2K [\033[0;31mFAIL\033[0m] $1\n"
     echo ''
     exit
-}
-
-setup_gitconfig () {
-    # blah blah blah
-    success "..Setting up!"
-    if ! [ -f git/gitconfig.symlink ]
-    then
-        #info 'setup gitconfig'
-        git_credential='cache'
-
-    if [ "$(uname -s)" == "Darwin" ]
-    then
-        git_credential='osxkeychain'
-        sucess "..Configured!"
-    fi
-
-    #info "Configuring Github settings ..... "
-    user ' - What is your github author name?'
-    read -e git_authorname
-    user ' - What is your github author email?'
-    read -e git_authoremail
-    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.symlink.example > git/gitconfig.symlink
-    success 'gitconfig'
-    fi
-    git config --global push.default matching
-    success "..Configured!"
 }
 
 install_zsh () {
@@ -225,23 +199,7 @@ install_colours () {
 
 }
 
-work_cli () {
 
-  # Add the Cloud Foundry Foundation public key and package repository to your system
-  wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-  echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-  sudo apt-get update
-  sudo apt-get install cf-cli
-
-  sudo wget -O /etc/yum.repos.d/cloudfoundry-cli.repo https://packages.cloudfoundry.org/fedora/cloudfoundry-cli.repo
-  sudo yum install cf-cli
-
-  brew tap cloudfoundry/tap
-  brew install cf-cli
-
-
-
-}
 
 finish_off () {
     if [[ ${UNAMER} =~ .*\.amzn1.* ]]
@@ -256,7 +214,8 @@ finish_off () {
     #cd ..
 
     #curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
-    curl -L https://iterm2.com/misc/install_shell_integration_and_utilities.sh | zsh
+    
+    # curl -L https://iterm2.com/misc/install_shell_integration_and_utilities.sh | zsh
 }
 
 # If we're on a Mac, let's install and setup homebrew.
@@ -280,29 +239,17 @@ else
 fi
 
 
-info "Setup GitHub"
-setup_gitconfig
-success "..GitHub Setup"
-info "Setup zsh"
+# info "Setup zsh"
 # install_zsh
-success "..ZSH Setup"
-info "Setup dotfiles"
+# success "..ZSH Setup"
+
+info "Setting up dotfiles"
 install_dotfiles
 success "..dotfiles Setup"
-#Colours and theme
-info "Setup Colourings"
-install_colours
-success "..Colours Setup"
-info "Tidy up and complete"
+
 finish_off
-#sudo chsh -s `which zsh`
-#sudo usermod -s /bin/zsh $USER
-# sudo chsh -s /bin/zsh
 success "Complete"
 
-#hidden files and dir on Linux
-# make zsh default
-# reread .zshrc file
 
 echo ''
 echo ' Complete!'

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+if [[ "$unamestr" == 'Darwin' ]]; then
+
 brew install jq
 
 brew cask install camtasia
@@ -86,3 +88,7 @@ mas install 409203825 #com.apple.iWork.Numbers (6.0)
 mas install 865500966 # Feedly
 mas install 1176895641 # Spark
 mas install 1295203466 # Microsoft Remote Desktop 
+
+else
+    echo "Not running OSX therefore skipping Homebrew install"
+fi

@@ -30,10 +30,10 @@ brew cask install skype
 brew cask install slack
 brew cask install iterm2
     echo "Done installing brew stuff"
-	exit 0
+	# exit 0
 else
     echo "Not running OSX therefore skipping Homebrew install"
-    exit 0
+    # exit 0
 fi
 }
 

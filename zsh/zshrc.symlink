@@ -191,21 +191,7 @@ if [[ -x `which grc` ]]; then
   alias ifconfig='colourify ifconfig'
 fi
 
-#alias colourify="grc -es --colour=auto"
-#alias configure='colourify ./configure'
-
-# Python virtualenv setup and pip
-# pip should only run if there is a virtualenv currently activated
-#export PIP_REQUIRE_VIRTUALENV=true
-# cache pip-installed packages to avoid re-downloading
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
-# To allow the installation of pip packages globally
-# an exmaple is gpip install --upgrade --no-use-wheel pip setuptools virtualenv
-#gpip(){
-#	   PIP_REQUIRE_VIRTUALENV="" pip "$@"
-#}
-
-export CF_COLOR=true
 
 # ==========================
 # Cloud Access Env Variables
@@ -236,33 +222,10 @@ fi
 
 #test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-# ==========================
-# CF CLI
-# ==========================
-CF_COLOR=true
 
-# Work out logic to understand what he current ln is pointing to!
-CF_HOME="~/.cf/"
-
-
-#alias pws="ln -sfn "~/.cf/pws/config.json" "~/.cf/config.json"; CF_TAR=PWS"
-#alias pez="ln -sfn "~/.cf/pez/config.json" "~/.cf/config.json"; CF_TAR=HaaS"
-#alias haas="ln -sfn "~/.cf/pez/config.json" "~/.cf/config.json"; CF_TAR=HaaS"
-
-#alias pws="export CF_HOME=~/.cf/pws/; CF_TAR=PWS"
-#alias pez="export CF_HOME=~/.cf/PEZ/; CF_TAR=HaaS"
-#alias haas="export CF_HOME=~/.cf/PEZ/; CF_TAR=HaaS"
-
-# added by https://github.com/EngineerBetter/cdgo-cli
-#function cdgo { cd $(cdgo-cli -needle="$@") ; }
-#function cdwork { cd $(cdgo-cli -haystackType=work -needle="$@") ; }
-
-
-# export BOSH_CLIENT=admin
-# export BOSH_CLIENT_SECRET=`bosh int ~/creds/gcp-lab-bosh.yml --path /admin_password`
 
 # direnv setup hook (https://direnv.net/)
-eval "$(direnv hook zsh)"
+# eval "$(direnv hook zsh)"
 
 # PROMPT='$(kube_ps1) '$PROMPT
 
@@ -304,12 +267,12 @@ POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 # source "$HOMEBREW_FOLDER/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/redwards/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/redwards/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+# if [ -f '/Users/redwards/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/redwards/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/redwards/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/redwards/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+# if [ -f '/Users/redwards/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/redwards/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/redwards/.sdkman"
-[[ -s "/Users/redwards/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/redwards/.sdkman/bin/sdkman-init.sh"
+# export SDKMAN_DIR="/Users/redwards/.sdkman"
+# [[ -s "/Users/redwards/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/redwards/.sdkman/bin/sdkman-init.sh"

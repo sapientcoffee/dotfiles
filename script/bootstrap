@@ -1,14 +1,7 @@
 #!/usr/bin/env bash
-
 #==============================================================================
-# Title:
-# Description:
-# Copyright:
-# Author:          	Rob Edwards (robedwa/@clijockey)
-# Date:
-# Version:
-# Dependencies:
-# Parameters:
+# Description:      Bootstrap Script to get dotfiles setup and machine 
+# Author:          	Rob Edwards (@clijockey)
 #
 # License:          Copying and distribution of this file, with or without modification,
 #                   are permitted in any medium without royalty provided the copyright
@@ -16,14 +9,15 @@
 #                   offered as-is, without any warranty.
 #==============================================================================
 
+# use set -e instead of #!/bin/bash -e in case we're
+# called with `bash ~/bin/scriptname`
+set -e # bail out early if any command fails
+set -u # fail if we hit unset variables
+set -o pipefail # fail if any component of any pipe fails
+
 UNAMER=$(uname -r)
-#
-# bootstrap installs things.
 cd "$(dirname "$0")/.."
 DOTFILES_ROOT=$(pwd -P)
-set -e
-echo ''
-
 
 # Set some output colours to feedback during setup
 info () {
@@ -71,61 +65,45 @@ setup_gitconfig () {
 }
 
 install_zsh () {
-  success "..Checking ZSH config"
-  if [ -d ~/.oh-my-zsh ]; then
-    info "..oh-my-zsh already exists, removing so can be replaced with latest!"
-    rm -rf ~/.oh-my-zsh
-    success ".. Removed!"
-  fi
-
   success "..Installing oh-my-zsh"
-  if [ "$FLAVOUR" == Redhat ]; then
-    sudo yum install -y zsh > /dev/null
-    success "..zsh installed via yum."
-    #sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  elif [ "$FLAVOUR" == Debian ]; then
-    #sudo apt-get -y install zsh > /dev/null
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
-    success "..zsh installed for debian based system"
+
+
+  if [ "$FLAVOUR" == Debian ]; then
+    # sudo apt update
+    # sudo apt -y upgrade
+    # sudo apt -y qinstall zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" #> /dev/null
+    success "..zsh installed via apt for Debain system."
   elif [ "$FLAVOUR" == osx ]; then
+    # /usr/bin/ruby -e "$(curl -fsSL https://raw.zshhubusercontent.com/Homebrew/install/master/install)"
+    # brew doctor
+    # brew install zsh
     git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+    sudo sh -c "echo $(which zsh) >> /etc/shells" && chsh -s $(which zsh)
   fi
-  success '..zsh installed'
+  success '..zsh installed on Mac'
 
-    #if [$FLAVOUR = "osx"]; then
-      #git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null
-      # Copy each extension to custom dir
-      #success '..Oh-My-ZSH GitHub repo Cloned'
-      mkdir -p ~/.oh-my-zsh/custom/themes
-    if [[ -x /usr/bin/curl ]]; then
-    #   sudo sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
-    #   success "..Oh-My-ZSH installed via curl"
-     curl https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh --output ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme --silent
-     success "..SpaceShip Theme Installed"
-    elif [[ -x /usr/bin/wget ]]; then
-    #   sudo sh -c "$(wget -quiet https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" > /dev/null
-    #   success "..Oh-My-ZSH installed via wget"
-      wget –quiet –output-document ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
-      #wget -O ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/install.sh | zsh
-      success "..SpaceShip Theme Installed"
-    else
+  mkdir -p ~/.oh-my-zsh/custom/themes
+  if [[ -x /usr/bin/curl ]]; then
+   curl https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh --output ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme --silent
+   success "..SpaceShip Theme Installed"
+  elif [[ -x /usr/bin/wget ]]; then
+    wget –quiet –output-document ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
+    success "..SpaceShip Theme Installed"
+  else
      fail "[ERROR] Curl or wget not installed"
-      write code to install it.
-    fi
+  fi
 
-    # chsh -s $(which zsh)
+  cd ~/.oh-my-zsh/themes
+  curl -O "https://github.com/andrewconnell/osx-install/raw/master/app-settings/iterm/bullet-train.zsh-theme"
 
-    cd ~/.oh-my-zsh/themes
-    curl -O "https://github.com/andrewconnell/osx-install/raw/master/app-settings/iterm/bullet-train.zsh-theme"
+  cd ~/.oh-my-zsh/plugins
+  git clone https://github.com/frodenas/bosh-zsh-autocomplete-plugin.git bosh
+  git clone https://github.com/sbodiu-pivotal/fly-zsh-autocomplete-plugin.git fly
+  git clone https://github.com/dannyzen/cf-zsh-autocomplete-plugin.git cf
 
-    cd ~/.oh-my-zsh/plugins
-    git clone https://github.com/frodenas/bosh-zsh-autocomplete-plugin.git bosh
-    git clone https://github.com/sbodiu-pivotal/fly-zsh-autocomplete-plugin.git fly
-    git clone https://github.com/dannyzen/cf-zsh-autocomplete-plugin.git cf
-
-    # install shell integration & utilities
-    curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
-
+  # install shell integration & utilities
+  #curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
 }
 
 link_file () {
@@ -215,13 +193,13 @@ install_colours () {
   success "..vim colors setup"
 
   #info "..Configure GRC"
-  if [ -d ~/.grc ]; then
-    info "..Removing ~/.grc directory!"
-    rm -rf ~/.grc
-  fi
-  git clone --quiet https://github.com/garabik/grc.git ~/.grc >/dev/null
-  #cd ./grc
-  success "..GRC setup"
+  # if [ -d ~/.grc ]; then
+  #   info "..Removing ~/.grc directory!"
+  #   rm -rf ~/.grc
+  # fi
+  # git clone --quiet https://github.com/garabik/grc.git ~/.grc >/dev/null
+  # #cd ./grc
+  # success "..GRC setup"
 
 }
 
@@ -238,41 +216,19 @@ work_cli () {
 
   brew tap cloudfoundry/tap
   brew install cf-cli
-
-
-
 }
 
-finish_off () {
-    if [[ ${UNAMER} =~ .*\.amzn1.* ]]
-    then
-        echo "This is an EC2 instance"
-        success 'Tidied up and Complete'
-        #sudo chsh ec2-user -s /bin/zsh
-    #else
-    #    echo "something else"
-    fi
-    #sudo ../install.#!/bin/sh
-    #cd ..
-
-    #curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
-    curl -L https://iterm2.com/misc/install_shell_integration_and_utilities.sh | zsh
-}
-
-# If we're on a Mac, let's install and setup homebrew.
+# What system am I running on?
 if [ "$(uname -s)" == "Darwin" ]; then
     success "Detected Darwin (OSX) based operating system"
     FLAVOUR="osx"
 elif [ -f /etc/debian_version ]; then
 # Might look at using if [[ -x /usr/bin/apt-get ]]; then
     success "Detected Debian based operating system"
-    #info "Installing dependencies"
     FLAVOUR="Debian"
-    #VER=$(cat /etc/debian_version)
 elif [ -f /etc/redhat-release ]; then
 # Might look to change to use elif [[ -x /usr/bin/yum ]]; then
     success "Detected RetHat variant (RHEL/Centos) operating system"
-    #info "Installing dependencies"
     FLAVOUR="Redhat"
 else
   fail "[ERROR] Cannot detect operating system"
@@ -280,9 +236,10 @@ else
 fi
 
 
+
 info "Setup GitHub"
 setup_gitconfig
-success "..GitHub Setup"
+
 info "Setup zsh"
 # install_zsh
 success "..ZSH Setup"
@@ -293,16 +250,6 @@ success "..dotfiles Setup"
 info "Setup Colourings"
 install_colours
 success "..Colours Setup"
-info "Tidy up and complete"
-finish_off
-#sudo chsh -s `which zsh`
-#sudo usermod -s /bin/zsh $USER
-# sudo chsh -s /bin/zsh
+
 success "Complete"
 
-#hidden files and dir on Linux
-# make zsh default
-# reread .zshrc file
-
-echo ''
-echo ' Complete!'

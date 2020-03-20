@@ -4,7 +4,7 @@
 # called with `bash ~/bin/scriptname`
 set -e # bail out early if any command fails
 set -u # fail if we hit unset variables
-set -o pipefail # fail if any component of any pipe fails
+# set -o pipefail # fail if any component of any pipe fails
 
 main() {
 # Scirpt to install and setup Homebrew if executed on a Mac

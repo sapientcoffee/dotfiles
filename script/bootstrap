@@ -88,10 +88,10 @@ install_zsh () {
   mkdir -p ~/.oh-my-zsh/custom/themes
   if [[ -x /usr/bin/curl ]]; then
    curl https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh --output ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme --silent
-   success "..SpaceShip Theme Installed"
+   success ".. Themes Downloaded"
   elif [[ -x /usr/bin/wget ]]; then
     wget –quiet –output-document ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
-    success "..SpaceShip Theme Installed"
+    success "..Theme Downloaded"
   else
      fail "[ERROR] Curl or wget not installed"
   fi
@@ -107,6 +107,13 @@ install_zsh () {
 
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+  
+#   pip install --user powerline-status
+#   pip install --user git+git://github.com/powerline/powerline
+
+#   wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+#   wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
 
   # install shell integration & utilities
   #curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
@@ -262,7 +269,7 @@ success "..install packages"
 
 # # find the installers and run them iteratively
 # find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
-source ./install
+source ${DOTFILES_ROOT}/script/install
 
 success "Complete"
 

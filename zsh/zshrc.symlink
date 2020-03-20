@@ -273,7 +273,7 @@ eval "$(direnv hook zsh)"
 # Load Nerd Fonts with Powerlevel9k theme for Zsh
 # Customisation https://github.com/bhilburn/powerlevel9k#prompt-customization
 POWERLEVEL9K_MODE='nerdfont-complete'
-source ~/powerlevel9k/powerlevel9k.zsh-theme
+source ~/.oh-my-zsh/custom/themes/powerlevel9k/powerlevel9k.zsh-theme
 
 POWERLEVEL9K_CUSTOM_JAVASCRIPT="echo -n '\ue781' JavaScript"
 POWERLEVEL9K_CUSTOM_JAVASCRIPT_FOREGROUND="black"

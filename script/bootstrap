@@ -72,16 +72,18 @@ install_zsh () {
     # sudo apt update
     # sudo apt -y upgrade
     # sudo apt -y qinstall zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" #> /dev/null
-    success "..zsh installed via apt for Debain system."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    success "..zsh installed oh-my-zsh Debain system."
   elif [ "$FLAVOUR" == osx ]; then
     # /usr/bin/ruby -e "$(curl -fsSL https://raw.zshhubusercontent.com/Homebrew/install/master/install)"
     # brew doctor
     # brew install zsh
+    #### THIS NEEDS TO BE RELOOKED AT - THE GIT REPO SEEMS TO HAVE CHANGED!!!
     git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
     sudo sh -c "echo $(which zsh) >> /etc/shells" && chsh -s $(which zsh)
+    success '..zsh installed on Mac'
   fi
-  success '..zsh installed on Mac'
+  
 
   mkdir -p ~/.oh-my-zsh/custom/themes
   if [[ -x /usr/bin/curl ]]; then
@@ -96,11 +98,15 @@ install_zsh () {
 
   cd ~/.oh-my-zsh/themes
   curl -O "https://github.com/andrewconnell/osx-install/raw/master/app-settings/iterm/bullet-train.zsh-theme"
+  git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+
 
   cd ~/.oh-my-zsh/plugins
-  git clone https://github.com/frodenas/bosh-zsh-autocomplete-plugin.git bosh
   git clone https://github.com/sbodiu-pivotal/fly-zsh-autocomplete-plugin.git fly
-  git clone https://github.com/dannyzen/cf-zsh-autocomplete-plugin.git cf
+  git clone https://github.com/jonmosco/kube-ps1.git kube-ps1-old
+
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
   # install shell integration & utilities
   #curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
@@ -192,39 +198,40 @@ install_colours () {
   success "..Solarized Installed"
   success "..vim colors setup"
 
-  #info "..Configure GRC"
-  # if [ -d ~/.grc ]; then
-  #   info "..Removing ~/.grc directory!"
-  #   rm -rf ~/.grc
-  # fi
-  # git clone --quiet https://github.com/garabik/grc.git ~/.grc >/dev/null
-  # #cd ./grc
-  # success "..GRC setup"
+  info "..Configure GRC"
+  if [ -d ~/.grc ]; then
+    info "..Removing ~/.grc directory!"
+    rm -rf ~/.grc
+  fi
+  git clone --quiet https://github.com/garabik/grc.git ~/.grc
+  #cd ./grc
+  success "..GRC setup"
 
 }
 
-work_cli () {
+# work_cli () {
 
-  # Add the Cloud Foundry Foundation public key and package repository to your system
-  wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-  echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-  sudo apt-get update
-  sudo apt-get install cf-cli
+#   # Add the Cloud Foundry Foundation public key and package repository to your system
+#   wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+#   echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+#   sudo apt-get update
+#   sudo apt-get install cf-cli
 
-  sudo wget -O /etc/yum.repos.d/cloudfoundry-cli.repo https://packages.cloudfoundry.org/fedora/cloudfoundry-cli.repo
-  sudo yum install cf-cli
+#   sudo wget -O /etc/yum.repos.d/cloudfoundry-cli.repo https://packages.cloudfoundry.org/fedora/cloudfoundry-cli.repo
+#   sudo yum install cf-cli
 
-  brew tap cloudfoundry/tap
-  brew install cf-cli
-}
+#   brew tap cloudfoundry/tap
+#   brew install cf-cli
+# }
 
 # What system am I running on?
 if [ "$(uname -s)" == "Darwin" ]; then
     success "Detected Darwin (OSX) based operating system"
     FLAVOUR="osx"
-elif [ -f /etc/debian_version ]; then
+elif [ -x /usr/bin/apt-get  ]; then
+# elif [ -f /etc/debian_version ]; then
 # Might look at using if [[ -x /usr/bin/apt-get ]]; then
-    success "Detected Debian based operating system"
+    success "Detected Debian/apt based operating system"
     FLAVOUR="Debian"
 elif [ -f /etc/redhat-release ]; then
 # Might look to change to use elif [[ -x /usr/bin/yum ]]; then
@@ -241,7 +248,7 @@ info "Setup GitHub"
 setup_gitconfig
 
 info "Setup zsh"
-# install_zsh
+install_zsh
 success "..ZSH Setup"
 info "Setup dotfiles"
 install_dotfiles
@@ -252,8 +259,10 @@ install_colours
 success "..Colours Setup"
 
 success "..install packages"
-# find the installers and run them iteratively
-find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
+
+# # find the installers and run them iteratively
+# find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
+source ./install
 
 success "Complete"
 

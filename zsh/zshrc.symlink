@@ -8,27 +8,10 @@ export ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 
-
-#Testing for new ones
-
-#ZSH_THEME="clijockey"
-# ZSH_THEME="nanotech"
-# ZSH_THEME="oxide"
-# ZSH_THEME="schminitz"
-
-# ZSH_THEME="spaceship"
-
-# ZSH_THEME="agnoster"
-# ZSH_THEME="bullet-train"
-
-#ZSH_THEME="pygmalion"
+ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Old themes playd with.
-ZSH_THEME="robbyrussell"
-#ZSH_THEME="seeker"
-#ZSH_THEME="seeker"
-##ZSH_THEME="Honukai"
-#ZSH_THEME="nanotech" # most recent
+# ZSH_THEME="robbyrussell" ##One I used the most
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -73,9 +56,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Taken out zsh-autosuggestions
 #plugins=(fly cf bosh colorize docker docker-compose git github gitignore git-flow git-extras git-prompt npm pip pyenv python ssh-agent sudo vagrant virtualenv colored-man-pages node theme web-search)
 plugins=(
-  fly 
-  cf 
-  bosh 
+  fly  
   colorize 
   docker 
   docker-compose 
@@ -94,6 +75,8 @@ plugins=(
   colored-man-pages 
   theme 
   web-search  
+  zsh-syntax-highlighting
+  zsh-autosuggestions
 )
 
 # User configuration
@@ -103,70 +86,8 @@ export GOPATH="/Users/redwards/workspace/go"
 export GOROOT="/usr/local/opt/go/libexec"
 export GOBIN="$GOPATH/bin"
 export PATH="/Users/redwards/Downloads/google-cloud-sdk/bin:/usr/local/opt/pyenv/shims:/usr/local/opt/pyenv/bin:/bin:/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:$PATH:/sbin:/opt/X11/bin:~/bin:/Users/redwards/bin:$GOPATH/bin:$GOROOT/bin:$GOBIN:/Users/redwards/bin/terraform"
-
-
-# export PATH=/Users/redwards/Downloads/google-cloud-sdk/bin:/usr/local/opt/pyenv/shims:/usr/local/opt/pyenv/bin:/bin:/Users/redwards/go-workspace/bin:/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/sbin:/opt/X11/bin:~/bin:/Users/redwards/bin:/Users/redwards/bin/terraform:/Users/redwards/.vimpkg/bin
-# export PATH=$PATH:$GOPATH/bin
-# export PATH=$PATH:$GOROOT/bin
-
 export MANPATH="/usr/local/man:$MANPATH"
-
-# source $ZSH/oh-my-zsh.sh
-# source /path-to-antigen/antigen.zsh
-# source /usr/local/share/antigen/antigen.zsh
 export CLICOLOR=1
-
-# == Ability to select which java version ==
-# brew tap homebrew/cask-versions
-# brew search java
-# Install a specific version of the JDK such as java8, java9, java10, java11, java12, or just java for the current:
-# brew cask install java
-export JAVA_HOME=$(/usr/libexec/java_home)
-export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
-# export JAVA_9_HOME=$(/usr/libexec/java_home -v9)
-# export JAVA_10_HOME=$(/usr/libexec/java_home -v10)
-export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
-export JAVA_12_HOME=$(/usr/libexec/java_home -v12)
-
-alias java8="export JAVA_HOME=$JAVA_8_HOME; java -version"
-# alias java9='export JAVA_HOME=$JAVA_9_HOME'
-# alias java10='export JAVA_HOME=$JAVA_10_HOME'
-alias java11='export JAVA_HOME=$JAVA_11_HOME'
-alias java12='export JAVA_HOME=$JAVA_12_HOME'
-
-# default to Java 12
-# java12
-
-
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred edi tor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# Map delete key (fn+backspace) on OS X correctly:
-bindkey "^[[3~" delete-char
 
 # History management
 export HISTSIZE=25000
@@ -225,6 +146,7 @@ alias ksys=kubectl --namespace=kube-system
 alias kd=kubectl describe
 
 # https://github.com/jonmosco/kube-ps1
+source ~/.oh-my-zsh/plugins/kube-ps1-old/kube-ps1.sh
 KUBE_PS1_CTX_COLOR="yellow"
 # PS1='$(kube_ps1)'$PS1
 # KUBE_PS1_SYMBOL_USE_IMG=false
@@ -305,7 +227,7 @@ fi
 # ==========================
 # K8s prompt magic
 # ==========================
-source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+# source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
 
 #function iterm2_print_user_vars() {
   #iterm2_set_user_var gitBranch $((git branch 2> /dev/null) | grep \* | cut -c3-)
@@ -335,17 +257,12 @@ CF_HOME="~/.cf/"
 #function cdgo { cd $(cdgo-cli -needle="$@") ; }
 #function cdwork { cd $(cdgo-cli -haystackType=work -needle="$@") ; }
 
-# fortune | cowsay
-
-
 
 # export BOSH_CLIENT=admin
 # export BOSH_CLIENT_SECRET=`bosh int ~/creds/gcp-lab-bosh.yml --path /admin_password`
 
 # direnv setup hook (https://direnv.net/)
 eval "$(direnv hook zsh)"
-
-export VAULT_ADDR="https://vault.pez.pivotal.io:8200"
 
 # PROMPT='$(kube_ps1) '$PROMPT
 
@@ -382,9 +299,9 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon ssh dir vcs kubecontext aws docker_ma
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(root_indicator background_jobs history time command_execution_time)
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 # Load Zsh tools for syntax highlighting and autosuggestions
-HOMEBREW_FOLDER="/usr/local/share"
-source "$HOMEBREW_FOLDER/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-source "$HOMEBREW_FOLDER/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# HOMEBREW_FOLDER="/usr/local/share"
+# source "$HOMEBREW_FOLDER/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# source "$HOMEBREW_FOLDER/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/redwards/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/redwards/Downloads/google-cloud-sdk/path.zsh.inc'; fi

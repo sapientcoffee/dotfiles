@@ -44,6 +44,31 @@ fail () {
     exit
 }
 
+install_zsh () {
+  success "..Installing oh-my-zsh"
+
+
+  if [ "$FLAVOUR" == Debian ]; then
+    sudo apt update
+    sudo apt upgrade
+    sudo apt install zsh
+    success "..zsh installed via apt for Debain system."
+  elif [ "$FLAVOUR" == Redhat ]; then
+    sudo yum upgrade
+    sudo yum install zsh
+    success "..zsh installed for Redhat based system"
+  elif [ "$FLAVOUR" == osx ]; then
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.zshhubusercontent.com/Homebrew/install/master/install)"
+    brew doctor
+    brew install zsh
+    sudo sh -c "echo $(which zsh) >> /etc/shells" && chsh -s $(which zsh)
+  fi
+  success '..zsh installed on Mac'
+
+}
+
+
+
 link_file () {
     local src=$1 dst=$2
     local overwrite= backup= skip=
@@ -136,9 +161,9 @@ main() {
   fi
 
 
-  # info "Setup zsh"
-  # install_zsh
-  # success "..ZSH Setup"
+  info "Setup zsh"
+  install_zsh
+  success "..ZSH Setup"
 
   info "Setting up dotfiles"
   install_dotfiles

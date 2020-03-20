@@ -9,7 +9,7 @@ set -u # fail if we hit unset variables
 main() {
 # Scirpt to install and setup Homebrew if executed on a Mac
 
-if [ "$(uname -s)" == "Darwin" ]; then
+if [[ "$(uname -s)" == "Darwin" ]]; then
     # Check for Homebrew already installed
 	echo "Checking if brew is already installed .... if not will install."
     if test ! $(which brew)

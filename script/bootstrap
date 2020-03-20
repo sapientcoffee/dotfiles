@@ -251,6 +251,7 @@ info "Setup Colourings"
 install_colours
 success "..Colours Setup"
 
+success "..install packages"
 # find the installers and run them iteratively
 find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
 

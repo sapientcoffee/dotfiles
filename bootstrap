@@ -17,12 +17,10 @@ set -u # fail if we hit unset variables
 set -o pipefail # fail if any component of any pipe fails
 
 UNAMER=$(uname -r)
-#
-# bootstrap installs things.
 cd "$(dirname "$0")/.."
 DOTFILES_ROOT=$(pwd -P)
-set -e
-echo ''
+# set -e
+# echo ''
 
 
 # Set some output colours to feedback during setup
@@ -52,7 +50,7 @@ install_zsh () {
     # sudo apt update
     # sudo apt -y upgrade
     # sudo apt -y qinstall zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" > /dev/null
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" #> /dev/null
     success "..zsh installed via apt for Debain system."
   elif [ "$FLAVOUR" == osx ]; then
     # /usr/bin/ruby -e "$(curl -fsSL https://raw.zshhubusercontent.com/Homebrew/install/master/install)"
@@ -83,7 +81,7 @@ install_zsh () {
   git clone https://github.com/dannyzen/cf-zsh-autocomplete-plugin.git cf
 
   # install shell integration & utilities
-  curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
+  #curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
 
 }
 

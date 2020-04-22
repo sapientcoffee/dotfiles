@@ -225,7 +225,7 @@ fi
 
 
 # direnv setup hook (https://direnv.net/)
-# eval "$(direnv hook zsh)"
+eval "$(direnv hook zsh)"
 
 # PROMPT='$(kube_ps1) '$PROMPT
 
@@ -276,3 +276,11 @@ POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 # export SDKMAN_DIR="/Users/redwards/.sdkman"
 # [[ -s "/Users/redwards/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/redwards/.sdkman/bin/sdkman-init.sh"
+
+bindkey '^R' history-incremental-search-backward
+bindkey "^E" vi-end-of-line
+bindkey "^A" vi-beginning-of-line
+
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PIP_REQUIRE_VIRTUALENV=false

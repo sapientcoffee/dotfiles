@@ -16,7 +16,10 @@ if [ -f /etc/debian_version ]; then
         ca-certificates \
         gnupg \
         gnupg-agent \
-        software-properties-common
+        software-properties-common \
+        tmux
+
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
     sudo apt -y install google-cloud-sdk kubectl
 

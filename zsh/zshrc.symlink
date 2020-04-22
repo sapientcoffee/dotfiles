@@ -284,3 +284,5 @@ bindkey "^A" vi-beginning-of-line
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PIP_REQUIRE_VIRTUALENV=false
+
+ssh-add ~/.ssh/github_rsa

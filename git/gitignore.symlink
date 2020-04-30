@@ -40,6 +40,7 @@ bin/
 ehthumbs.db
 Thumbs.db
 .metadata/
+.vscode/
 
 # Local Config Files #
 ######################

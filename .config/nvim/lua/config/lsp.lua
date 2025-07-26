@@ -1,15 +1,17 @@
+-- Get the lspconfig plugin
 local lspconfig = require("lspconfig")
-local mason = require("mason")
-local mason_lspconfig = require("mason-lspconfig")
 
--- Enable Mason for plugin management
+-- Get the mason plugin
+local mason = require("mason")
+
+-- Enable mason
 mason.setup()
 
--- Define the list of LSP servers to be installed and configured
+-- Define the list of LSP servers to install
 local servers = { "lua_ls" }
 
--- Configure mason-lspconfig to ensure the servers are installed
-mason_lspconfig.setup({
+-- Ensure the servers are installed by mason
+require("mason.settings").set({
   ensure_installed = servers,
 })
 

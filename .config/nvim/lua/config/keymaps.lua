@@ -23,5 +23,3 @@ vim.keymap.set('n', '<leader>fh', ':Telescope help_tags<CR>', {
 vim.keymap.set('n', '<leader>fo', ':Oil<CR>', {
   desc = 'Open oil file explorer'
 })
-  desc = 'Toggle file explorer'
-})

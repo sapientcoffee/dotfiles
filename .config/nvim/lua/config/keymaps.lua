@@ -1,5 +1,4 @@
 -- [[ Keymaps ]]
-vim.g.mapleader = " " -- Set leader key to space
 vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', {
   desc = 'Toggle file explorer'
 })

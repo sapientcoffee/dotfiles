@@ -67,10 +67,12 @@ This cheatsheet provides a quick reference for the keybindings and features of t
 |---|---|
 | `<leader>fo` | Open oil file explorer |
 
-### Formatter (none-ls)
+### Linting and Formatting
 
-*   **Description**: A formatter that uses null-ls to format code.
-*   **Configuration**: Automatically formats code on save using `stylua` for Lua and `prettier` for other filetypes.
+*   **Description**: Linting is provided by `nvim-lint` and formatting by `conform.nvim`.
+*   **Configuration**:
+    *   **Linting**: Automatically runs `eslint` on JavaScript and TypeScript files.
+    *   **Formatting**: Automatically formats code on save using `stylua` for Lua and `eslint` for JavaScript/TypeScript.
 
 ---
 

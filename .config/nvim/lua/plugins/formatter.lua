@@ -1,18 +1,16 @@
 return {
-  "nvimtools/none-ls.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
-  config = function()
-    local null_ls = require("null-ls")
-    null_ls.setup({
-      sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.diagnostics.eslint.with({
-          command = "/usr/local/bin/eslint",
-        }),
-        null_ls.builtins.formatting.eslint.with({
-          command = "/usr/local/bin/eslint",
-        }),
-      },
-    })
-  end,
+  "stevearc/conform.nvim",
+  event = { "BufWritePre" },
+  cmd = { "ConformInfo" },
+  opts = {
+    formatters_by_ft = {
+      lua = { "stylua" },
+      javascript = { "eslint" },
+      typescript = { "eslint" },
+    },
+    format_on_save = {
+      timeout_ms = 500,
+      lsp_fallback = true,
+    },
+  },
 }

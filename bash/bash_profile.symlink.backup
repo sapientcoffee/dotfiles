@@ -1,0 +1,14 @@
+# Do nothing other than launch bashrc (which checks if we're running interactively)
+# ...for some reason ootb OS X doesn't do this!
+
+if [[ -e $HOME/.bashrc ]]; then
+	. $HOME/.bashrc
+fi
+
+export PATH=/Users/redwards/Downloads/google-cloud-sdk/bin:/usr/local/opt/pyenv/shims:/usr/local/opt/pyenv/bin:/bin:/Users/redwards/go-workspace/bin:/usr/local:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/sbin:/opt/X11/bin:~/bin:/Users/redwards/bin:/Users/redwards/bin/terraform:/Users/redwards/.vimpkg/bin
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+export PATH=$PATH:/Users/redwards/bin
+
+source '/Users/redwards/lib/azure-cli/az.completion'

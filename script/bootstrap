@@ -1,0 +1,281 @@
+#!/usr/bin/env bash
+#==============================================================================
+# Description:      Bootstrap Script to get dotfiles setup and machine 
+# Author:          	Rob Edwards (@clijockey)
+#
+# License:          Copying and distribution of this file, with or without modification,
+#                   are permitted in any medium without royalty provided the copyright
+#                   notice, original author and this notice are preserved. This file is
+#                   offered as-is, without any warranty.
+#==============================================================================
+
+# use set -e instead of #!/bin/bash -e in case we're
+# called with `bash ~/bin/scriptname`
+set -e # bail out early if any command fails
+set -u # fail if we hit unset variables
+set -o pipefail # fail if any component of any pipe fails
+
+UNAMER=$(uname -r)
+cd "$(dirname "$0")/.."
+DOTFILES_ROOT=$(pwd -P)
+
+# Set some output colours to feedback during setup
+info () {
+    printf " [ \033[00;34m..\033[0m ] $1\n"
+}
+
+user () {
+    printf "\r [ \033[0;33m?\033[0m ] $1\n "
+}
+
+success () {
+    printf "\r\033[2K [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+fail () {
+    printf "\r\033[2K [\033[0;31mFAIL\033[0m] $1\n"
+    echo ''
+    exit
+}
+
+setup_gitconfig () {
+    # blah blah blah
+    success "..Setting up!"
+    if ! [ -f git/gitconfig.symlink ]
+    then
+        #info 'setup gitconfig'
+        git_credential='cache'
+
+    if [ "$(uname -s)" == "Darwin" ]
+    then
+        git_credential='osxkeychain'
+        sucess "..Configured!"
+    fi
+
+    #info "Configuring Github settings ..... "
+    user ' - What is your github author name?'
+    read -e git_authorname
+    user ' - What is your github author email?'
+    read -e git_authoremail
+    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.symlink.example > git/gitconfig.symlink
+    success 'gitconfig'
+    fi
+    git config --global push.default matching
+    success "..Configured!"
+}
+
+install_zsh () {
+  success "..Installing oh-my-zsh"
+
+
+  if [ "$FLAVOUR" == Debian ]; then
+    # sudo apt update
+    # sudo apt -y upgrade
+    # sudo apt -y qinstall zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    success "..zsh installed oh-my-zsh Debain system."
+  elif [ "$FLAVOUR" == osx ]; then
+    # /usr/bin/ruby -e "$(curl -fsSL https://raw.zshhubusercontent.com/Homebrew/install/master/install)"
+    # brew doctor
+    # brew install zsh
+    #### THIS NEEDS TO BE RELOOKED AT - THE GIT REPO SEEMS TO HAVE CHANGED!!!
+    git clone --quiet https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+    sudo sh -c "echo $(which zsh) >> /etc/shells" && chsh -s $(which zsh)
+    success '..zsh installed on Mac'
+  fi
+  
+
+  mkdir -p ~/.oh-my-zsh/custom/themes
+  if [[ -x /usr/bin/curl ]]; then
+   curl https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh --output ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme --silent
+   success ".. Themes Downloaded"
+  elif [[ -x /usr/bin/wget ]]; then
+    wget –quiet –output-document ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
+    success "..Theme Downloaded"
+  else
+     fail "[ERROR] Curl or wget not installed"
+  fi
+
+  cd ~/.oh-my-zsh/themes
+  curl -O "https://github.com/andrewconnell/osx-install/raw/master/app-settings/iterm/bullet-train.zsh-theme"
+  git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+
+
+  cd ~/.oh-my-zsh/plugins
+  git clone https://github.com/sbodiu-pivotal/fly-zsh-autocomplete-plugin.git fly
+  git clone https://github.com/jonmosco/kube-ps1.git kube-ps1-old
+
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+  # Testing for the migration from powerlevel9k to powerlevel10k
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+
+  
+  pip install --user powerline-status
+  pip install --user git+git://github.com/powerline/powerline
+
+  git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git ~/.nerd-fonts/
+  ~/.nerd-fonts/install.sh
+
+#   wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+#   wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+
+  # install shell integration & utilities
+  #curl -L https://iterm2.com/misc/install_shell_integration.sh | bash
+}
+
+link_file () {
+    local src=$1 dst=$2
+    local overwrite= backup= skip=
+    local action=
+    if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
+    then
+        if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+        then
+            local currentSrc="$(readlink $dst)"
+            if [ "$currentSrc" == "$src" ]
+            then
+                skip=true;
+            else
+                user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
+                [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+                read -n 1 action
+                case "$action" in
+                    o )
+                    overwrite=true;;
+                    O )
+                    overwrite_all=true;;
+                    b )
+                    backup=true;;
+                    B )
+                    backup_all=true;;
+                    s )
+                    skip=true;;
+                    S )
+                    skip_all=true;;
+                    * )
+                    ;;
+                esac
+            fi
+        fi
+        overwrite=${overwrite:-$overwrite_all}
+        backup=${backup:-$backup_all}
+        skip=${skip:-$skip_all}
+        if [ "$overwrite" == "true" ]
+        then
+            rm -rf "$dst"
+            success "..removed $dst"
+        fi
+        if [ "$backup" == "true" ]
+        then
+            mv "$dst" "${dst}.backup"
+            success "..moved $dst to ${dst}.backup"
+        fi
+        if [ "$skip" == "true" ]
+        then
+            success "..skipped $src"
+        fi
+    fi
+    if [ "$skip" != "true" ] # "false" or empty
+    then
+        ln -s "$1" "$2"
+        success "..linked $1 to $2"
+    fi
+}
+
+install_dotfiles () {
+    #info '..Installing dotfiles'
+    local overwrite_all=false backup_all=false skip_all=false
+    for src in $(find "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink')
+    do
+        dst="$HOME/.$(basename "${src%.*}")"
+        link_file "$src" "$dst"
+    done
+    success '..dotfiles configured!'
+}
+
+install_colours () {
+  #
+  #info "..Solarized Colors Setup"
+  if [ -d ~/.vim/colors-solarized ]; then
+    info "..Removing ~/.vim/colors directory!"
+    rm -rf ~/.vim/colors-solarized
+  fi
+  if [ ! -d ~/.vim/colors/ ]; then
+    mkdir -p ~/.vim/colors;
+  fi
+  git clone --quiet https://github.com/altercation/vim-colors-solarized.git ~/.vim/colors-solarized >/dev/null
+  mv ~/.vim/colors-solarized/colors/solarized.vim ~/.vim/colors/
+
+  success "..Solarized Installed"
+  success "..vim colors setup"
+
+  info "..Configure GRC"
+  if [ -d ~/.grc ]; then
+    info "..Removing ~/.grc directory!"
+    rm -rf ~/.grc
+  fi
+  git clone --quiet https://github.com/garabik/grc.git ~/.grc
+  #cd ./grc
+  success "..GRC setup"
+
+}
+
+# work_cli () {
+
+#   # Add the Cloud Foundry Foundation public key and package repository to your system
+#   wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+#   echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+#   sudo apt-get update
+#   sudo apt-get install cf-cli
+
+#   sudo wget -O /etc/yum.repos.d/cloudfoundry-cli.repo https://packages.cloudfoundry.org/fedora/cloudfoundry-cli.repo
+#   sudo yum install cf-cli
+
+#   brew tap cloudfoundry/tap
+#   brew install cf-cli
+# }
+
+# What system am I running on?
+if [ "$(uname -s)" == "Darwin" ]; then
+    success "Detected Darwin (OSX) based operating system"
+    FLAVOUR="osx"
+elif [ -x /usr/bin/apt-get  ]; then
+# elif [ -f /etc/debian_version ]; then
+# Might look at using if [[ -x /usr/bin/apt-get ]]; then
+    success "Detected Debian/apt based operating system"
+    FLAVOUR="Debian"
+elif [ -f /etc/redhat-release ]; then
+# Might look to change to use elif [[ -x /usr/bin/yum ]]; then
+    success "Detected RetHat variant (RHEL/Centos) operating system"
+    FLAVOUR="Redhat"
+else
+  fail "[ERROR] Cannot detect operating system"
+
+fi
+
+
+
+# info "Setup GitHub"
+# setup_gitconfig
+
+info "Setup zsh"
+install_zsh
+success "..ZSH Setup"
+info "Setup dotfiles"
+install_dotfiles
+success "..dotfiles Setup"
+#Colours and theme
+info "Setup Colourings"
+install_colours
+success "..Colours Setup"
+
+success "..install packages"
+
+# # find the installers and run them iteratively
+# find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
+source ${DOTFILES_ROOT}/script/install
+
+success "Complete"
+

@@ -13,6 +13,7 @@ I am a software developer who values an efficient and customized command-line en
 *   Secrets should be managed using `yadm`'s built-in GPG encryption.
 *   I value clear and maintainable configuration files.
 *   **After modifying a configuration file, please commit the changes to the `yadm` repository with a descriptive message.**
+*   **If keybindings or usage details change, please update `cheatsheet.md` accordingly.**
 
 ## Technologies
 

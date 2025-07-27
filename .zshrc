@@ -100,3 +100,6 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias grep='grep --color=auto'
 alias mkdir='mkdir -p'
+# Alias vi and vim to nvim
+alias vi='nvim'
+alias vim='nvim'

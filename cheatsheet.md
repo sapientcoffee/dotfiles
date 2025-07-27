@@ -91,3 +91,11 @@ The prefix for all tmux commands is `Ctrl+a`.
 | `Ctrl+a` + `p` | Paste from the system clipboard into tmux. |
 | `Ctrl` + `h/j/k/l` | Navigate between tmux panes and Neovim splits seamlessly. |
 | `y` (in copy mode) | Yank the selection to the system clipboard. |
+
+---
+
+## Academic Writing
+
+A full suite of plugins has been installed for academic writing in LaTeX. For a detailed guide on the workflow and keybindings, please see the dedicated document:
+
+*   [`academic-research-approach.md`](academic-research-approach.md)

@@ -8,7 +8,7 @@ local mason = require("mason")
 mason.setup()
 
 -- Define the list of LSP servers to install
-local servers = { "lua_ls" }
+local servers = { "lua_ls", "ltex" }
 
 -- Ensure the servers are installed by mason
 require("mason.settings").set({

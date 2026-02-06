@@ -16,6 +16,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("config.lazy")
+require("config.options")
 require("config.keymaps")
 require("config.completion")
 require("config.treesitter")
@@ -23,4 +24,4 @@ require("config.telescope")
 require("config.oil")
 require("config.gitsigns")
 require("config.lualine")
-require("config.lsp")
+

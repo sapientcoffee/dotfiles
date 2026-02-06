@@ -25,10 +25,33 @@ export EDITOR=nvim
 # Starship Prompt
 export STARSHIP_CONFIG="$HOME/.config/starship.toml"
 
-# NVM (Node Version Manager)
+# NVM (Node Version Manager) - Lazy Load
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Unalias first to avoid conflicts if they are already aliased
+unalias nvm node npm npx 2>/dev/null
+
+function nvm {
+  unset -f nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  nvm "$@"
+}
+function node {
+  unset -f node npm npx
+  nvm use default
+  node "$@"
+}
+function npm {
+  unset -f node npm npx
+  nvm use default
+  npm "$@"
+}
+function npx {
+  unset -f node npm npx
+  nvm use default
+  npx "$@"
+}
 
 # Consolidated PATH
 # Using an array to avoid duplicates and for better readability
@@ -49,10 +72,17 @@ path=(
 )
 export PATH
 
-# Other Exports
-export OTLP_GOOGLE_CLOUD_PROJECT="coffee-and-codey"
-export GOOGLE_CLOUD_PROJECT="code-assist-enterprise-demo"
 
+
+
+################################################################################
+# Completion
+################################################################################
+# Case-insensitive matching and menu selection
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu select
+autoload -U compinit
+compinit
 
 ################################################################################
 # ZSH Plugins
@@ -73,14 +103,18 @@ fi
 # Starship Init (must be at the end)
 eval "$(starship init zsh)"
 
+# use direnv for dir level environment variables
+eval "$(direnv hook zsh)"
 
+# zoxide for smarter navigation
+eval "$(zoxide init zsh)"
 ################################################################################
 # Aliases
 ################################################################################
 # eza (modern replacement for ls)
 alias ls='eza --icons'
 alias la='eza -a --icons'
-alias ll='eza -l --icons'
+alias ll='eza -la --sort=modified'
 alias llt='eza -lT --icons'
 alias less='less -R'
 
@@ -103,3 +137,14 @@ alias mkdir='mkdir -p'
 # Alias vi and vim to nvim
 alias vi='nvim'
 alias vim='nvim'
+alias gemini='/google/bin/releases/gemini-cli/tools/gemini --proxy=false'
+
+
+
+################################################################################
+# Auto-start Tmux
+################################################################################
+# Automatically start/attach to tmux session "main" on shell startup
+if [[ -z "$TMUX" ]] && [[ -o interactive ]] && [[ -x "$HOME/.local/bin/tmux-start" ]]; then
+  "$HOME/.local/bin/tmux-start"
+fi

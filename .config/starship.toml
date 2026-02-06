@@ -49,8 +49,8 @@ add_newline = false
 palette = "catppuccin_mocha"
 
 [character]
-success_symbol = '[➜](bold green) '
-error_symbol = '[✗](bold red) '
+success_symbol = '[➜](dimmed green) '
+error_symbol = '[✗](dimmed red) '
 
 [status]
 style = 'bg:blue'
@@ -77,7 +77,7 @@ format = "[$symbol($version )($mod_version )]($style)"
 symbol = " "
 
 [directory]
-style = "blue"
+style = "dimmed blue"
 read_only = "🔒"
 truncation_length = 4
 truncate_to_repo = true
@@ -113,7 +113,9 @@ style = 'bold yellow'
 discharging_symbol = '💀 '
 
 [kubernetes]
-format = 'on [⛵ ($user on )($cluster in )$context \($namespace\)](dimmed green) '
+symbol = "󱃾 "
+format = ' on [$symbol$context( \($namespace\))]($style) '
+style = "dimmed green"
 disabled = false
 contexts = [
   { context_pattern = "dev.local.cluster.k8s", style = "green", symbol = "💔 " },
@@ -130,7 +132,7 @@ fish_indicator = '󰈺 '
 zsh_indicator = ''
 powershell_indicator = '_'
 unknown_indicator = 'mystery shell'
-style = 'cyan bold'
+style = 'dimmed cyan'
 disabled = false
 
 [cmd_duration]
@@ -138,7 +140,7 @@ min_time = 500
 
 [os]
 format = "[($symbol )]($style)"
-style = "bold blue"
+style = "dimmed blue"
 disabled = false
 
 [custom.readme]
@@ -155,7 +157,7 @@ symbol = "󰥧"
 detect_files = ['firebase.json', '.firebaserc']
 command = "firebase --version"
 style = "#FFC400"
-format = "[using $symbol Firebase]($style)"
+format = "[using $symbol Firebase ]($style)"
 # format = "[$symbol $output]($style)"
 
 [palettes.catppuccin_mocha]

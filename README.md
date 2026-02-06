@@ -1,53 +1,89 @@
 # My Dotfiles
 
+![Managed by yadm](https://img.shields.io/badge/managed%20by-yadm-blue?style=for-the-badge&logo=git)
+![Shell](https://img.shields.io/badge/Shell-Zsh-green?style=for-the-badge&logo=zsh)
+![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=for-the-badge&logo=neovim)
+
 ![Terminal Screenshot](https://via.placeholder.com/800x400.png?text=My+Awesome+Terminal)
 
-This repository contains my personal configuration files (dotfiles) for various command-line tools and applications. The setup is managed by [`yadm`](https://yadm.io/), a powerful tool for managing dotfiles across multiple machines.
+> **Note:** Replace the screenshot above with a real capture of your terminal!
+
+My personal configuration files, managed by [`yadm`](https://yadm.io/). Designed for a fast, keyboard-centric workflow on Linux.
+
+## 📂 Repository Structure
+
+```text
+.
+├── .config/
+│   ├── gh/                 # GitHub CLI configuration
+│   ├── nvim/               # Neovim configuration (Lua, Lazy.nvim)
+│   ├── starship.toml       # Starship prompt configuration
+│   └── Code/               # VS Code User settings
+├── .ssh/
+│   └── config              # SSH host aliases (keys are ignored)
+├── .tmux.conf              # Tmux configuration (Catppuccin theme)
+├── .zshenv                 # Environment variables
+├── .zshrc                  # Interactive shell configuration
+├── .secrets                # [IGNORED] Local secrets and tokens
+└── README.md
+```
 
 ## ✨ Features
 
-*   **Shell:** Zsh with the [Starship](https://starship.rs/) prompt for a minimal, fast, and feature-rich experience.
-*   **Editor:** A modern Neovim setup managed by [lazy.nvim](https://github.com/folke/lazy.nvim).
-*   **Terminal Multiplexer:** A highly customized tmux configuration for efficient session and window management.
-*   **Git:** A streamlined Git configuration for a better workflow.
-*   **Cross-Platform:** Designed to be easily portable across Linux systems.
+### 🐚 Zsh Shell
+*   **Prompt**: [Starship](https://starship.rs/) for a minimal, informative prompt.
+*   **Plugins**: Fast Syntax Highlighting, Autosuggestions, `zoxide` for navigation.
+*   **Secret Management**: Automatically sources `~/.secrets` if present (see below).
+
+### 📝 Neovim
+*   Fully Lua-based configuration.
+*   Managed by **lazy.nvim**.
+*   Pre-configured with **LSP**, **Treesitter**, **Telescope**, and **Oil**.
+
+### 💻 Tmux
+*   **Theme**: [Catppuccin](https://github.com/catppuccin/tmux) (Mocha variant).
+*   **Copy-Paste**: Mouse selection automatically copies to system clipboard (via `xclip`).
+*   **Navigation**: seamless navigation between Neovim and Tmux splits.
+*   **Keybindings**:
+    *   `Ctrl + a`: Prefix key (remapped from `Ctrl + b`).
+    *   `|` and `-`: Split panes (vertical/horizontal).
+    *   `r`: Reload config.
 
 ## 🚀 Installation
 
-These dotfiles are managed by `yadm`. To install them on a new machine:
+1.  **Install Prerequisites:**
+    ```bash
+    # Ubuntu/Debian example
+    sudo apt install zsh tmux neovim ripgrep fd-find xclip git
+    
+    # Install yadm
+    curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x /usr/local/bin/yadm
+    ```
 
-1.  **Install `yadm`**. Follow the official installation instructions for your operating system: [yadm.io/docs/install](https://yadm.io/docs/install).
-
-2.  **Clone this repository:**
+2.  **Clone & Bootstrap:**
     ```bash
     yadm clone https://github.com/sapientcoffee/dotfiles.git
+    yadm status
     ```
 
-3.  **Bootstrap (if necessary):** `yadm` will automatically check out the files to their correct locations in your home directory. You may need to run an additional bootstrap script if one is provided in the future to install dependencies.
+## 🔐 Managing Secrets
 
+**DO NOT** commit API keys or tokens to this repository. This setup ignores the `.secrets` file by default.
+
+1.  Create the file: `touch ~/.secrets`
+2.  Add your secrets:
     ```bash
-    yadm bootstrap
+    export ATLASSIAN_API_TOKEN="your_token_here"
+    export GITHUB_TOKEN="your_token_here"
     ```
-    *(Note: A bootstrap script is not yet configured but can be added later.)*
+3.  Reload your shell. `.zshrc` will source this file automatically.
 
-## Prerequisites
+## 🔧 Management Cheatsheet
 
-For all features to work correctly, you'll need to have the following installed:
-
-*   [Zsh](https://www.zsh.org/)
-*   [Neovim](https://neovim.io/) (v0.9.0 or later recommended)
-*   [tmux](https://github.com/tmux/tmux/wiki)
-*   [Git](https://git-scm.com/)
-*   [Starship](https://starship.rs/)
-*   A [Nerd Font](https://www.nerdfonts.com/) (e.g., FiraCode Nerd Font, JetBrainsMono Nerd Font) for proper icon rendering in the terminal.
-
-## 🔧 Management
-
-*   **Adding a new file:** `yadm add <path/to/file>`
-*   **Checking status:** `yadm status`
-*   **Committing changes:** `yadm commit -m "Your commit message"`
-*   **Pushing changes:** `yadm push`
-*   **Pulling updates:** `yadm pull`
-
----
-*This README was generated and managed by the Gemini CLI.*
+| Action | Command |
+| :--- | :--- |
+| **Add File** | `yadm add <file>` |
+| **Commit** | `yadm commit -m "update"` |
+| **Push** | `yadm push` |
+| **Pull** | `yadm pull` |
+| **Status** | `yadm status` |

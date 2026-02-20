@@ -139,7 +139,14 @@ alias vi='nvim'
 alias vim='nvim'
 alias gemini='/google/bin/releases/gemini-cli/tools/gemini --proxy=false'
 
+# Gemini Integration
+# Quickly ask Gemini about the last command's output
+explain_last() {
+  fc -ln -1 | gemini "Explain what this command does and its output: $(cat)"
+}
 
+# Review staged changes
+alias greview='git diff | gemini "Review these changes for bugs or optimizations"'
 
 ################################################################################
 # Auto-start Tmux
@@ -148,3 +155,30 @@ alias gemini='/google/bin/releases/gemini-cli/tools/gemini --proxy=false'
 if [[ -z "$TMUX" ]] && [[ -o interactive ]] && [[ -x "$HOME/.local/bin/tmux-start" ]]; then
   "$HOME/.local/bin/tmux-start"
 fi
+
+################################################################################
+# Tmux Dynamic Background
+################################################################################
+function _tmux_bg_change {
+  # Subtle red background: #2b0000 (Dark Red for dark themes).
+  # Use #fff0f0 (Misty Rose) if you prefer a light theme.
+  local bg_color="#2b0000"
+
+  if [[ -n "$TMUX" ]]; then
+    if [[ "$PWD" == "$HOME" ]]; then
+      tmux select-pane -P "bg=$bg_color"
+    else
+      # Use the base color from the Catppuccin Mocha theme (#1e1e2e) to ensure opacity
+      # and prevent the underlying terminal's red background from showing through.
+      tmux select-pane -P "bg=#1e1e2e"
+    fi
+  else
+    # For standard terminals (VTE, iTerm2, etc.)
+    if [[ "$PWD" == "$HOME" ]]; then
+      printf '\033]11;%s\007' "$bg_color"
+    else
+      printf '\033]111\007' # Reset background color
+    fi
+  fi
+}
+precmd_functions+=(_tmux_bg_change)

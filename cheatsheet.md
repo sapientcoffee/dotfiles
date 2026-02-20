@@ -99,3 +99,15 @@ The prefix for all tmux commands is `Ctrl+a`.
 A full suite of plugins has been installed for academic writing in LaTeX. For a detailed guide on the workflow and keybindings, please see the dedicated document:
 
 *   [`academic-research-approach.md`](academic-research-approach.md)
+
+## Gemini Workflow
+
+| Command | Description |
+|---|---|
+| `explain_last` | Explains the last command run in the terminal. |
+| `greview` | Reviews the current git diff for bugs and optimizations. |
+
+## SSH Features
+
+*   **Visual Cue**: The Tmux status bar background turns **red** when connected via SSH.
+*   **Hostname**: Starship prompt displays the hostname with a bold red style when connected via SSH.

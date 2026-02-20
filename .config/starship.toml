@@ -140,7 +140,7 @@ min_time = 500
 
 [os]
 format = "[($symbol )]($style)"
-style = "dimmed blue"
+style = "bold blue"
 disabled = false
 
 [custom.readme]
@@ -239,7 +239,8 @@ symbol = " "
 symbol = " "
 
 [hostname]
-ssh_symbol = " "
+ssh_only = true
+format = "on [ $hostname](bold red) "
 
 [java]
 symbol = " "

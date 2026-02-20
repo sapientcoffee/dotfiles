@@ -78,6 +78,20 @@ My personal configuration files, managed by [`yadm`](https://yadm.io/). Designed
     ```
 3.  Reload your shell. `.zshrc` will source this file automatically.
 
+## 🔄 Updating
+
+To get the latest changes:
+
+1.  **Pull changes:**
+    ```bash
+    yadm pull
+    ```
+
+2.  **Apply updates (if needed):**
+    *   **Zsh:** `source ~/.zshrc` (or restart terminal)
+    *   **Neovim:** Run `:Lazy sync` inside Neovim
+    *   **Tmux:** Press `Ctrl+a` then `r` to reload config; `Ctrl+a` then `U` to update plugins.
+
 ## 🔧 Management Cheatsheet
 
 | Action | Command |

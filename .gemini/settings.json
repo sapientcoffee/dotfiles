@@ -1,0 +1,64 @@
+{
+  "extensions": {
+    "workspacesWithMigrationNudge": [
+      "/home/robedwards/workspace/cymbal-eats"
+    ]
+  },
+  "mcpServers": {},
+  "security": {
+    "auth": {
+      "selectedType": "gemini-api-key"
+    }
+  },
+  "ui": {
+    "theme": "CatppuccinMocha",
+    "showStatusInTitle": true,
+    "dynamicWindowTitle": true,
+    "showLineNumbers": true,
+    "showCitations": true,
+    "footer": {
+      "hideContextPercentage": false
+    },
+    "showModelInfoInChat": true,
+    "customThemes": {
+      "CatppuccinMocha": {
+        "name": "CatppuccinMocha",
+        "type": "custom",
+        "Background": "#1e1e2e",
+        "Foreground": "#cdd6f4",
+        "LightBlue": "#89dceb",
+        "AccentBlue": "#89b4fa",
+        "AccentPurple": "#cba6f7",
+        "AccentCyan": "#94e2d5",
+        "AccentGreen": "#a6e3a1",
+        "AccentYellow": "#f9e2af",
+        "AccentRed": "#f38ba8",
+        "Comment": "#6c7086",
+        "Gray": "#585b70"
+      }
+    }
+  },
+  "ide": {
+    "enabled": true,
+    "hasSeenNudge": true
+  },
+  "general": {
+    "preferredEditor": "neovim",
+    "vimMode": true,
+    "disableAutoUpdate": false,
+    "enableAutoUpdate": true,
+    "enableNotifications": true,
+    "enablePromptCompletion": true,
+    "sessionRetention": {
+      "warningAcknowledged": true,
+      "enabled": true,
+      "maxAge": "30d"
+    }
+  },
+  "tools": {
+    "sandbox": false
+  },
+  "model": {
+    "name": "auto-gemini-3"
+  }
+}

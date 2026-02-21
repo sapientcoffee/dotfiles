@@ -59,6 +59,9 @@
     "sandbox": false
   },
   "model": {
-    "name": "auto-gemini-3"
+    "name": "gemini-2.5-flash"
+  },
+  "experimental": {
+    "enableAgents": true
   }
 }

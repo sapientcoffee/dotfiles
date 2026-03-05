@@ -160,24 +160,24 @@ fi
 # Tmux Dynamic Background
 ################################################################################
 function _tmux_bg_change {
-  # Subtle red background: #2b0000 (Dark Red for dark themes).
-  # Use #fff0f0 (Misty Rose) if you prefer a light theme.
   local bg_color="#2b0000"
+  local default_bg="#1e1e2e" # Catppuccin Mocha Base
 
   if [[ -n "$TMUX" ]]; then
     if [[ "$PWD" == "$HOME" ]]; then
       tmux select-pane -P "bg=$bg_color"
     else
-      # Use the base color from the Catppuccin Mocha theme (#1e1e2e) to ensure opacity
-      # and prevent the underlying terminal's red background from showing through.
-      tmux select-pane -P "bg=#1e1e2e"
+      # Explicitly set the background to the theme color to ensure opacity
+      tmux select-pane -P "bg=$default_bg"
+      # Also reset the host terminal background to prevent it from showing through
+      # (OSC 111 reset)
+      printf '\033Ptmux;\033\033]111\007\033\\'
     fi
   else
-    # For standard terminals (VTE, iTerm2, etc.)
     if [[ "$PWD" == "$HOME" ]]; then
       printf '\033]11;%s\007' "$bg_color"
     else
-      printf '\033]111\007' # Reset background color
+      printf '\033]111\007'
     fi
   fi
 }

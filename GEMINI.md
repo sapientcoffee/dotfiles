@@ -1,4 +1,4 @@
-I am a software developer who values an efficient and customized command-line environment.
+I am a engineer who values an efficient and customized command-line environment.
 
 ## Core Setup
 
@@ -14,10 +14,3 @@ I am a software developer who values an efficient and customized command-line en
 *   I value clear and maintainable configuration files.
 *   **After modifying a configuration file, please commit the changes to the `yadm` repository with a descriptive message.**
 *   **If keybindings or usage details change, please update `cheatsheet.md` accordingly.**
-
-## Technologies
-
-*   **Languages**: Go, JavaScript, TypeScript, Python
-*   **Frameworks**: Node.js, React, Next.js, Angular, Flutter
-*   **Databases**: PostgreSQL, MongoDB
-*   **Cloud Platforms**: Google Cloud, Firebase

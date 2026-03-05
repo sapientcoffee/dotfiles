@@ -17,7 +17,19 @@
     "showLineNumbers": true,
     "showCitations": true,
     "footer": {
-      "hideContextPercentage": false
+      "hideContextPercentage": false,
+      "items": [
+        "workspace",
+        "git-branch",
+        "sandbox",
+        "model-name",
+        "context-used",
+        "quota",
+        "memory-usage",
+        "session-id",
+        "code-changes",
+        "token-count"
+      ]
     },
     "showModelInfoInChat": true,
     "customThemes": {
@@ -44,8 +56,7 @@
   },
   "general": {
     "preferredEditor": "neovim",
-    "vimMode": true,
-    "disableAutoUpdate": false,
+    "vimMode": false,
     "enableAutoUpdate": true,
     "enableNotifications": true,
     "enablePromptCompletion": true,
@@ -59,9 +70,10 @@
     "sandbox": false
   },
   "model": {
-    "name": "gemini-2.5-flash"
+    "name": "auto-gemini-3"
   },
   "experimental": {
-    "enableAgents": true
+    "enableAgents": true,
+    "plan": true
   }
 }

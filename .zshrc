@@ -1,5 +1,10 @@
 # ~/.zshrc
 
+# Display welcome message on SSH login
+if [[ -o interactive ]] && [[ -n "$SSH_CONNECTION" || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
+    ~/.welcome.sh
+fi
+
 ################################################################################
 # History
 ################################################################################
@@ -153,7 +158,7 @@ alias greview='git diff | gemini "Review these changes for bugs or optimizations
 ################################################################################
 # Automatically start/attach to tmux session "main" on shell startup
 if [[ -z "$TMUX" ]] && [[ -o interactive ]] && [[ -x "$HOME/.local/bin/tmux-start" ]]; then
-  "$HOME/.local/bin/tmux-start"
+  exec "$HOME/.local/bin/tmux-start"
 fi
 
 ################################################################################

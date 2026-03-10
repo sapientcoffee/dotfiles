@@ -1,0 +1,73 @@
+name: Dotfiles CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Shellcheck on Bootstrap
+        run: |
+          sudo apt-get update && sudo apt-get install -y shellcheck
+          shellcheck .config/yadm/bootstrap
+          
+  test-bootstrap:
+    runs-on: ubuntu-latest
+    container: ubuntu:latest
+    steps:
+      - name: Prepare Container
+        run: |
+          apt-get update
+          apt-get install -y git curl sudo software-properties-common
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: dotfiles-repo
+
+      - name: Setup yadm environment
+        env:
+          USER: root
+          HOME: /root
+        run: |
+          # Install yadm
+          curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm
+          chmod a+x /usr/local/bin/yadm
+          
+          # Move files to simulate a cloned state in $HOME
+          cp -a dotfiles-repo/. $HOME/
+          
+      - name: Run Bootstrap Script
+        env:
+          USER: root
+          HOME: /root
+        run: |
+          cd $HOME
+          # Execute the script
+          bash .config/yadm/bootstrap
+          
+      - name: Validate Dependencies
+        env:
+          USER: root
+          HOME: /root
+        run: |
+          export PATH="/usr/local/bin:$PATH"
+          echo "== Validating Core Tools =="
+          zsh --version
+          tmux -V
+          nvim --version
+          git --version
+          starship --version
+          
+          echo "== Validating Node/NVM =="
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          node --version
+          npm --version

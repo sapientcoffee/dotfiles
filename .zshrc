@@ -113,6 +113,30 @@ eval "$(direnv hook zsh)"
 
 # zoxide for smarter navigation
 eval "$(zoxide init zsh)"
+
+################################################################################
+# Yadm Variance Check (Periodic)
+################################################################################
+function _yadm_variance_check {
+  # Only run once per day to avoid being too noisy
+  local state_file="${XDG_CACHE_HOME:-$HOME/.cache}/yadm_last_check"
+  mkdir -p "$(dirname "$state_file")"
+  
+  local last_check=$(cat "$state_file" 2>/dev/null || echo 0)
+  local current_time=$(date +%s)
+  local one_day=86400
+
+  if (( current_time - last_check > one_day )); then
+    if [[ -n "$(yadm status --porcelain 2>/dev/null)" ]]; then
+      echo "\n⚠️  \e[1;33mYadm Variance Detected!\e[0m"
+      echo "Your local dotfiles have unsynced changes. Run 'yadm status' to review.\n"
+    fi
+    echo "$current_time" > "$state_file"
+  fi
+}
+# Run the check in the background to not slow down shell startup
+_yadm_variance_check &!
+
 ################################################################################
 # Aliases
 ################################################################################

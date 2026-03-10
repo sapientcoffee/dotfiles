@@ -111,3 +111,16 @@ A full suite of plugins has been installed for academic writing in LaTeX. For a 
 
 *   **Visual Cue**: The Tmux status bar background turns **red** when connected via SSH.
 *   **Hostname**: Starship prompt displays the hostname with a bold red style when connected via SSH.
+
+---
+
+## 🔧 yadm Management
+
+| Action | Command |
+| :--- | :--- |
+| **Check Local Status** | `yadm status` |
+| **Commit Changes** | `yadm add <file> && yadm commit -m "msg"` |
+| **Sync with Remote** | `yadm pull --rebase && yadm push` |
+| **Run Bootstrap Again** | `yadm bootstrap` |
+
+> **Tip:** Every 24 hours on shell startup, `zsh` will automatically warn you if your local changes haven't been pushed to the remote repository.

@@ -49,21 +49,31 @@ My personal configuration files, managed by [`yadm`](https://yadm.io/). Designed
     *   `|` and `-`: Split panes (vertical/horizontal).
     *   `r`: Reload config.
 
-## 🚀 Installation
+## 🚀 Installation (New Machine Setup)
 
-1.  **Install Prerequisites:**
+Setting up a new environment is now fully automated via `yadm bootstrap`.
+
+1.  **Clone the Repository:**
     ```bash
-    # Ubuntu/Debian example
-    sudo apt install zsh tmux neovim ripgrep fd-find xclip git
-    
-    # Install yadm
+    # Install yadm if not present
     curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x /usr/local/bin/yadm
+
+    # Clone and automatically bootstrap
+    yadm clone https://github.com/sapientcoffee/dotfiles.git
     ```
 
-2.  **Clone & Bootstrap:**
+2.  **What happens during bootstrap?**
+    The `yadm bootstrap` script will automatically:
+    *   Install system dependencies (`zsh`, `nvim`, `tmux`, `ripgrep`, etc.).
+    *   Install the **Starship** prompt.
+    *   Set up **TPM** and install all Tmux plugins.
+    *   Install **NVM** and the latest **Node.js LTS**.
+    *   Configure your Zsh plugins.
+
+3.  **Finalize:**
+    Once complete, simply restart your shell:
     ```bash
-    yadm clone https://github.com/sapientcoffee/dotfiles.git
-    yadm status
+    exec zsh
     ```
 
 ## 🔐 Managing Secrets

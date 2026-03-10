@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# yadm bootstrap script
+# This script is automatically run by yadm after a clone or can be run manually.
+
+echo "🚀 Starting yadm bootstrap..."
+
+# 1. Install System Packages
+echo "📦 Installing system packages..."
+sudo apt update
+sudo apt install -y \
+    zsh \
+    tmux \
+    neovim \
+    ripgrep \
+    fd-find \
+    xclip \
+    git \
+    bat \
+    zoxide \
+    eza \
+    fzf \
+    direnv \
+    zsh-autosuggestions \
+    bc \
+    curl
+
+# 2. Install Starship Prompt
+if ! command -v starship &> /dev/null; then
+    echo "⭐ Installing Starship prompt..."
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
+fi
+
+# 3. Install Zsh Plugins (Fast Syntax Highlighting)
+ZSH_PLUGINS_DIR="$HOME/.zsh"
+mkdir -p "$ZSH_PLUGINS_DIR"
+if [ ! -d "$ZSH_PLUGINS_DIR/fast-syntax-highlighting" ]; then
+    echo "🎨 Cloning Fast Syntax Highlighting..."
+    git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git "$ZSH_PLUGINS_DIR/fast-syntax-highlighting"
+fi
+
+# 4. Install TPM (Tmux Plugin Manager)
+TPM_DIR="$HOME/.config/tmux/plugins/tpm"
+if [ ! -d "$TPM_DIR" ]; then
+    echo "🪟 Installing TPM..."
+    mkdir -p "$(dirname "$TPM_DIR")"
+    git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
+    # Install plugins defined in .tmux.conf
+    "$TPM_DIR/bin/install_plugins"
+fi
+
+# 5. Install NVM & LTS Node
+if [ ! -d "$HOME/.nvm" ]; then
+    echo "🟢 Installing NVM..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    echo "🟢 Installing Node LTS..."
+    nvm install --lts
+    nvm alias default lts/*
+fi
+
+echo "✅ Bootstrap complete! Please restart your shell or run 'exec zsh'."
